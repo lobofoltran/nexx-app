@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Scopes\EnterpriseScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Product extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'atcm_products';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'owner_id',
+        'atcm_products_categories_id',
+        'name',
+        'description',
+        'active',
+        'show_to_waiter',
+        'show_to_kitchen',
+        'show_to_cashier',
+        'image_url',
+        'value'
+    ];
+
+    public function productCategory(): BelongsTo
+    {
+        return $this->belongsTo(ProductCategory::class, 'atcm_products_categories_id', 'id');
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'id', 'atcm_product_id');
+    }
+
+    public function productEntities(): HasMany
+    {
+        return $this->hasMany(ProductEntity::class, 'id', 'atcm_product_id');
+    }
+
+    public function productQueues(): HasMany
+    {
+        return $this->hasMany(ProductQueue::class, 'id', 'atcm_product_id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new EnterpriseScope);
+    }
+
+}
