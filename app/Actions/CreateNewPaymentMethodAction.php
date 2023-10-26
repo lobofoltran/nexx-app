@@ -5,7 +5,7 @@ use App\Models\PaymentMethod;
 
 class CreateNewPaymentMethodAction
 {
-    public function handle(array $paymentMethodData): PaymentMethod
+    public static function handle(array $paymentMethodData): PaymentMethod
     {
         return PaymentMethod::create([
         ]);

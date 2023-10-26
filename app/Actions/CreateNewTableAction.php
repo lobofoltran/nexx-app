@@ -5,7 +5,7 @@ use App\Models\Table;
 
 class CreateNewTableAction
 {
-    public function handle(array $tableData): Table
+    public static function handle(array $tableData): Table
     {
         return Table::create([
         ]);

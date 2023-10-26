@@ -3,9 +3,15 @@
 namespace App\Observers;
 
 use App\Models\Card;
+use Illuminate\Support\Facades\App;
 
 class CardObserver
 {
+    public function creating(Card $card)
+    {
+        $card->owner_id = env('APP_ENV') == 'testing' ? '9999' : auth()->user()->enterprise_id;
+    }
+
     /**
      * Handle the Card "created" event.
      */

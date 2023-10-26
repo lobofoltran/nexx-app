@@ -5,7 +5,7 @@ use App\Models\ProductEntity;
 
 class CreateNewProductEntityAction
 {
-    public function handle(array $productEntityData): ProductEntity
+    public static function handle(array $productEntityData): ProductEntity
     {
         return ProductEntity::create([
         ]);

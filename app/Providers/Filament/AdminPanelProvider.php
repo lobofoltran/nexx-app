@@ -30,10 +30,10 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            // ->login()
             ->spa()
             ->tenant(Enterprise::class, ownershipRelationship: 'owner')
-            ->tenantRoutePrefix('team')
+            ->tenantRoutePrefix(null)
             ->tenantRegistration(RegisterEnterprise::class)
             ->tenantProfile(EditEnterpriseProfile::class)
             ->tenantMiddleware([

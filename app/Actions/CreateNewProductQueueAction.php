@@ -5,7 +5,7 @@ use App\Models\ProductQueue;
 
 class CreateNewProductQueueAction
 {
-    public function handle(array $productQueueData): ProductQueue
+    public static function handle(array $productQueueData): ProductQueue
     {
         return ProductQueue::create([
         ]);

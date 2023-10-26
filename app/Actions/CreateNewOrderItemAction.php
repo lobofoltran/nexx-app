@@ -5,7 +5,7 @@ use App\Models\OrderItem;
 
 class CreateNewOrderItemAction
 {
-    public function handle(array $orderItemData): OrderItem
+    public static function handle(array $orderItemData): OrderItem
     {
         return OrderItem::create([
         ]);

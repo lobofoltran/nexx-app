@@ -5,7 +5,7 @@ use App\Models\Product;
 
 class UpdateProductAction
 {
-    public function handle(Product $product, array $productData): Product
+    public static function handle(Product $product, array $productData): Product
     {
         return $product;
     }

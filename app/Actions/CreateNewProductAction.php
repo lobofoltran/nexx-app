@@ -5,7 +5,7 @@ use App\Models\Product;
 
 class CreateNewProductAction
 {
-    public function handle(array $productData): Product
+    public static function handle(array $productData): Product
     {
         return Product::create([
         ]);

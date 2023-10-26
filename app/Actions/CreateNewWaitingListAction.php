@@ -5,7 +5,7 @@ use App\Models\WaitingList;
 
 class CreateNewWaitingListAction
 {
-    public function handle(array $waitingListData): WaitingList
+    public static function handle(array $waitingListData): WaitingList
     {
         return WaitingList::create([
         ]);

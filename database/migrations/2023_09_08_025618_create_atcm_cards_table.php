@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('atcm_cards', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('identity', 256)->nullable();
-            $table->string('hash_id', 512);
             $table->boolean('closed')->default(false);
             $table->timestamps();
             $table->softDeletes();

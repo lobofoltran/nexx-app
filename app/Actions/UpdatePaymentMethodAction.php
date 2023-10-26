@@ -5,7 +5,7 @@ use App\Models\PaymentMethod;
 
 class UpdatePaymentMethodAction
 {
-    public function handle(PaymentMethod $paymentMethod, array $paymentMethodData): PaymentMethod
+    public static function handle(PaymentMethod $paymentMethod, array $paymentMethodData): PaymentMethod
     {
         return $paymentMethod;
     }

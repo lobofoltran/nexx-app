@@ -5,7 +5,7 @@ use App\Models\Department;
 
 class CreateNewDepartmentAction
 {
-    public function handle(array $departmentData): Department
+    public static function handle(array $departmentData): Department
     {
         return Department::create([
         ]);

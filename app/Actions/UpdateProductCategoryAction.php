@@ -5,7 +5,7 @@ use App\Models\ProductCategory;
 
 class UpdateProductCategoryAction
 {
-    public function handle(ProductCategory $productCategory, array $productCategoryData): ProductCategory
+    public static function handle(ProductCategory $productCategory, array $productCategoryData): ProductCategory
     {
         return $productCategory;
     }

@@ -5,7 +5,7 @@ use App\Models\ProductCategory;
 
 class CreateNewProductCategoryAction
 {
-    public function handle(array $productCategoryData): ProductCategory
+    public static function handle(array $productCategoryData): ProductCategory
     {
         return ProductCategory::create([
         ]);

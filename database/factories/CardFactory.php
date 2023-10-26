@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class CardFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'atcm_table_id' => Table::factory(),
+            'identity' => null,
+            'closed' => false,
         ];
     }
 }

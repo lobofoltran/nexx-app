@@ -5,7 +5,7 @@ use App\Models\Order;
 
 class CreateNewOrderAction
 {
-    public function handle(array $orderData): Order
+    public static function handle(array $orderData): Order
     {
         return Order::create([
         ]);

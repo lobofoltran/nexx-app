@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use App\Casts\EnterpriseCast;
 use App\Models\Scopes\EnterpriseScope;
+use App\Observers\CardObserver;
+use App\Policies\CardPolicy;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Gate;
 
 class Card extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     /**
      * The table associated with the model.
@@ -27,12 +32,20 @@ class Card extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_table_id',
-        'hash_id',
         'identity',
         'closed'
     ];
+
+    /**
+     * Get the columns that should receive a unique identifier.
+     *
+     * @return array<int, string>
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
 
     public function table(): BelongsTo
     {
