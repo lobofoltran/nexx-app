@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,19 +26,22 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_card_id',
-        'status'
     ];
 
     public function card(): BelongsTo
     {
-        return $this->belongsTo(Card::class, 'atcm_card_id', 'id');
+        return $this->belongsTo(Card::class, 'atcm_card_id');
     }
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class, 'id', 'atcm_order_id');
+        return $this->hasMany(OrderItem::class, 'atcm_order_id');
+    }
+
+    public function movimentations(): HasMany
+    {
+        return $this->hasMany(OrderMovimentation::class, 'atcm_order_id');
     }
 
     /**
@@ -46,7 +49,6 @@ class Order extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

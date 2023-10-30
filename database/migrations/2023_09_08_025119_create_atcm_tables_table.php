@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('identity', 256)->nullable();
             $table->enum('status', TableStatus::options());
+            $table->integer('cards_quantity')->default(0);
             $table->timestamps();
             $table->softDeletes();
             $table->unsignedBigInteger('owner_id')->nullable();

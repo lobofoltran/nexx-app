@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,14 +25,13 @@ class ProductCategory extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'description',
         'is_attraction'
     ];
 
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class, 'id', 'atcm_products_categories_id');
+        return $this->hasMany(Product::class, 'atcm_products_categories_id');
     }
 
     /**
@@ -40,7 +39,6 @@ class ProductCategory extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

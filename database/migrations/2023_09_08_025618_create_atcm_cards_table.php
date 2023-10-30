@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CardStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->string('identity', 256)->nullable();
-            $table->boolean('closed')->default(false);
+            $table->enum('status', CardStatus::options());
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('atcm_table_id')->nullable()->constrained();

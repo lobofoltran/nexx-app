@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,7 +26,6 @@ class Product extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_products_categories_id',
         'name',
         'description',
@@ -40,30 +39,24 @@ class Product extends Model
 
     public function productCategory(): BelongsTo
     {
-        return $this->belongsTo(ProductCategory::class, 'atcm_products_categories_id', 'id');
+        return $this->belongsTo(ProductCategory::class, 'atcm_products_categories_id');
     }
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class, 'id', 'atcm_product_id');
+        return $this->hasMany(OrderItem::class, 'atcm_product_id');
     }
 
     public function productEntities(): HasMany
     {
-        return $this->hasMany(ProductEntity::class, 'id', 'atcm_product_id');
+        return $this->hasMany(ProductEntity::class, 'atcm_product_id');
     }
-
-    public function productQueues(): HasMany
-    {
-        return $this->hasMany(ProductQueue::class, 'id', 'atcm_product_id');
-    }
-
+    
     /**
      * The "booted" method of the model.
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,7 +24,6 @@ class WaitingList extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'name',
         'done'
     ];
@@ -34,7 +33,6 @@ class WaitingList extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

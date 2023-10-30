@@ -8,10 +8,22 @@ enum OrderItemsStatus: string
 {
     use OptionsEnum;
 
-    case Assessing = ['assessing', 'Analisando'];
-    case Rejected  = ['rejected', 'Rejeitado'];
-    case Preparing = ['preparing', 'Preparando'];
-    case Concluded = ['concluded', 'Concluído'];
-    case Delivered = ['delivered', 'Entregue'];
-    case Canceled  = ['canceled', 'Cancelado'];
+    case Assessing = 'assessing';
+    case Rejected = 'rejected';
+    case Preparing = 'preparing';
+    case Concluded = 'concluded';
+    case Delivered = 'delivered';
+    case Canceled = 'canceled';
+
+    public function label(): string
+    {
+        return match($this) {
+            static::Assessing => 'Avaliando',
+            static::Rejected  => 'Rejeitado',
+            static::Preparing => 'Preparando',
+            static::Concluded => 'Concluído',
+            static::Delivered => 'Entregue',
+            static::Canceled  => 'Cancelado',
+        };
+    }
 }

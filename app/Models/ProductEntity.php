@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductEntity extends Model
@@ -25,7 +26,6 @@ class ProductEntity extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_product_id',
         'name',
         'active',
@@ -34,7 +34,12 @@ class ProductEntity extends Model
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class, 'atcm_product_id', 'id');
+        return $this->belongsTo(Product::class, 'atcm_product_id');
+    }
+
+    public function movimentations(): HasMany
+    {
+        return $this->hasMany(ProductEntityMovimentation::class, 'atcm_product_entity_id');
     }
 
     /**
@@ -42,7 +47,7 @@ class ProductEntity extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('value', 10);
             $table->string('transshipment', 10);
+            $table->enum('status', PaymentStatus::options());
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('atcm_card_id')->constrained();

@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use App\Casts\EnterpriseCast;
-use App\Models\Scopes\EnterpriseScope;
-use App\Observers\CardObserver;
-use App\Policies\CardPolicy;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Gate;
 
 class Card extends Model
 {
@@ -34,7 +29,6 @@ class Card extends Model
     protected $fillable = [
         'atcm_table_id',
         'identity',
-        'closed'
     ];
 
     /**
@@ -49,22 +43,27 @@ class Card extends Model
 
     public function table(): BelongsTo
     {
-        return $this->belongsTo(Table::class, 'atcm_table_id', 'id');
+        return $this->belongsTo(Table::class, 'atcm_table_id');
     }
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, 'id', 'atcm_card_id');
+        return $this->hasMany(Order::class, 'atcm_card_id');
     }
 
-    public function productQueues(): HasMany
+    public function orderItemQueues(): HasMany
     {
-        return $this->hasMany(ProductQueue::class, 'id', 'atcm_card_id');
+        return $this->hasMany(OrderItemQueue::class, 'atcm_card_id');
     }
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Payment::class, 'id', 'atcm_card_id');
+        return $this->hasMany(Payment::class, 'atcm_card_id');
+    }
+
+    public function movimentations(): HasMany
+    {
+        return $this->hasMany(CardMovimentation::class, 'atcm_card_id');
     }
 
     /**
@@ -72,6 +71,6 @@ class Card extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
 }

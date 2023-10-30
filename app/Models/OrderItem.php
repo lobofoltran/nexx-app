@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderItem extends Model
@@ -25,22 +27,25 @@ class OrderItem extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_order_id',
         'atcm_product_id',
-        'status',
         'observations',
         'value'
     ];
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(Order::class, 'atcm_order_id', 'id');
+        return $this->belongsTo(Order::class, 'atcm_order_id');
     }
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class, 'atcm_product_id', 'id');
+        return $this->belongsTo(Product::class, 'atcm_product_id');
+    }
+
+    public function orderItemQueue(): HasOne
+    {
+        return $this->hasOne(OrderItemQueue::class, 'atcm_order_item_id');
     }
 
     /**
@@ -48,7 +53,6 @@ class OrderItem extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

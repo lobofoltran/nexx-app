@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,14 +25,13 @@ class PaymentMethod extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'name',
         'active'
     ];
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Payment::class, 'id', 'atcm_payment_method_id');
+        return $this->hasMany(Payment::class, 'atcm_payment_method_id');
     }
 
     /**
@@ -40,7 +39,6 @@ class PaymentMethod extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

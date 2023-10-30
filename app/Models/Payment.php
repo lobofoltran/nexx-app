@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,7 +25,6 @@ class Payment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'atcm_card_id',
         'atcm_payment_method_id',
         'transshipment',
@@ -34,12 +33,12 @@ class Payment extends Model
 
     public function card(): BelongsTo
     {
-        return $this->belongsTo(Card::class, 'atcm_card_id', 'id');
+        return $this->belongsTo(Card::class, 'atcm_card_id');
     }
 
     public function paymentMethod(): BelongsTo
     {
-        return $this->belongsTo(Payment::class, 'atcm_payment_method_id', 'id');
+        return $this->belongsTo(Payment::class, 'atcm_payment_method_id');
     }
 
     /**
@@ -47,7 +46,6 @@ class Payment extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\EnterpriseScope;
+use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,14 +25,17 @@ class Table extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'owner_id',
         'identity',
-        'status'
     ];
 
     public function cards(): HasMany
     {
-        return $this->hasMany(Card::class, 'id', 'atcm_table_id');
+        return $this->hasMany(Card::class, 'atcm_table_id');
+    }
+
+    public function movimentations(): HasMany
+    {
+        return $this->hasMany(Table::class, 'atcm_table_id');
     }
 
     /**
@@ -40,7 +43,6 @@ class Table extends Model
      */
     protected static function booted(): void
     {
-        static::addGlobalScope(new EnterpriseScope);
+        static::addGlobalScope(new OwnerScope);
     }
-
 }

@@ -88,5 +88,4 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     {
         return $this->enterprises->contains($tenant);
     }
-
 }
