@@ -9,7 +9,6 @@ use App\Actions\CreateNewProductCategoryAction;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Services\OrderItemService;
-use SebastianBergmann\Type\VoidType;
 use Tests\TestCase;
 
 class CreateOrderTest extends TestCase

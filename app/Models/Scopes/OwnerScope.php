@@ -14,11 +14,11 @@ class OwnerScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         if (auth()->user()) {
-            $builder->where('owner_id', '=', auth()->user()->enterprise_id);
+            $builder->where('owner_id', '=', auth()->user()->currentEnterprise()->id);
         } else if (env('APP_ENV') == 'testing') {
-            $builder->where('owner_id', '=', '9999');
+            $builder->where('owner_id', '=', '1');
         } else {
-            throw new \Exception('Empresa do usuário não encontrada!');
+            // throw new \Exception('Empresa do usuário não encontrada!');
         }
     }
 }

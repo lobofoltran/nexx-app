@@ -20,4 +20,14 @@ enum PaymentStatus: string
             static::Canceled  => 'Cancelado',
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::Open      => 'blue',
+            static::Concluded => 'green',
+            static::Canceled  => 'red',
+        };
+    }
+
 }

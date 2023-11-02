@@ -74,6 +74,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return $this->belongsToMany(Enterprise::class)->using(EnterpriseUser::class);
     }
 
+    public function currentEnterprise(): Enterprise
+    {
+        return $this->enterprises->first();
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return true;

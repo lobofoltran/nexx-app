@@ -18,4 +18,12 @@ enum CardStatus: string
             static::Closed => 'Fechado',
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::Active => 'blue',
+            static::Closed => 'red',
+        };
+    }
 }

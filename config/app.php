@@ -187,6 +187,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'CardStatus' => App\Enums\CardStatus::class,
+        'OrderItemsStatus' => App\Enums\OrderItemsStatus::class,
+        'PaymentStatus' => App\Enums\PaymentStatus::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

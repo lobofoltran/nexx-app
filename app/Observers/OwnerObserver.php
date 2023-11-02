@@ -8,9 +8,9 @@ class OwnerObserver
     public function creating(Model $model)
     {
         if (auth()->check()) {
-            $model->owner_id = auth()->user()->enterprise_id;
+            $model->owner_id = auth()->user()->currentEnterprise()->id;
         } else if (env('APP_ENV') == 'testing') {
-            $model->owner_id = '9999';
+            $model->owner_id = '1';
         }
     }
 }

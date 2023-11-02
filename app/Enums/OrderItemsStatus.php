@@ -26,4 +26,16 @@ enum OrderItemsStatus: string
             static::Canceled  => 'Cancelado',
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::Assessing => 'yellow',
+            static::Rejected  => 'red',
+            static::Preparing => 'blue',
+            static::Concluded => 'blue',
+            static::Delivered => 'green',
+            static::Canceled  => 'red',
+        };
+    }
 }

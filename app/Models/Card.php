@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use App\Models\Scopes\OwnerScope;
+use App\Services\CardService;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Card extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids;
+    use HasFactory, SoftDeletes, HasUuids, Searchable;
 
     /**
      * The table associated with the model.
@@ -64,6 +66,21 @@ class Card extends Model
     public function movimentations(): HasMany
     {
         return $this->hasMany(CardMovimentation::class, 'atcm_card_id');
+    }
+
+    public function getConsummation(): string
+    {
+        return CardService::getConsummation($this);
+    }
+
+    public function getPaid(): string
+    {
+        return CardService::getPaid($this);
+    }
+
+    public function getTime(): string
+    {
+        return CardService::getTime($this);
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Enums\OrderItemsStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Card;
 use App\Models\Table;
+use DateTime;
 
 class CardService
 {
@@ -23,6 +24,8 @@ class CardService
             if ($table instanceof Table) {
                 TableService::setWaitingCleaning($table);
             }
+
+            // busca todos pagamentos abertos e finaliza
         }
 
         return $card;
@@ -49,10 +52,27 @@ class CardService
     {
         $payments = 0;
 
+        $card->refresh();
+
         foreach ($card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
             $payments = $payment->value - $payment->transshipment;
         }
 
         return $payments;
+    }
+
+    public static function getTime(Card $card): string
+    {
+        $entrada = new DateTime($card->created_at->format('Y-m-d H:i:s'));
+        $dataAtual = new DateTime();
+        $diferenca = $dataAtual->diff($entrada);
+
+        $horas = $diferenca->h + ($diferenca->days * 24);
+        $minutos = $diferenca->i;
+        $segundos = $diferenca->s;
+
+        $tempoDecorrido = sprintf('%02d:%02d:%02d', $horas, $minutos, $segundos);
+
+        return $tempoDecorrido;
     }
 }
