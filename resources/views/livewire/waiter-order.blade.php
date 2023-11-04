@@ -25,17 +25,53 @@
         @endforeach
     </div>
     <hr>
-    {{-- <div class="grid grid-cols-3 gap-4 mt-2 text-white">
-        @foreach ($tables as $table)
-            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ TableStatus::from($table->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewTable({{ $table }})">
-                <div class="text-center flex-none">{{ $table->id }} {{ $table->identity ? '(' . $table->identity . ')' : '' }}</div>
-                <div class="text-center flex-none"><i class="fas fa-users"></i> {{ $table->cards_quantity }}</div>
-                <div class="text-center flex-none"><i class="fas fa-clock"></i> {{ $table->getTime() }}</div>
-                <div class="text-center flex-none">@money($table->getConsummation())</div>
-                @if ($table->status === TableStatus::Grouped->value)
-                    <div class="absolute right-0 bottom-0 p-2"><i class="fas fa-paperclip"></i></div>
-                @endif
+    <div class="grid grid-cols-3 gap-4 mt-2 text-white">
+        @foreach ($orderItems as $orderItem)
+            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ OrderItemsStatus::from($orderItem->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="confirmingMark({{ $orderItem }})">
+                <div class="text-center flex-none">#{{ $orderItem->id }}</div>
+                <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $orderItem->order->card->id }} {{ $orderItem->order->card->identity ? '(' . $orderItem->order->card->identity . ')' : '' }}</div>
+                <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $orderItem->order->card->cardPhysical ? $orderItem->order->card->cardPhysical->id : 'N/D' }}</div>
+                <div class="text-center flex-none"><i class="fas fa-chair"></i> {{ $orderItem->order->card->table ? $orderItem->order->card->table->id : 'N/D' }}</div>
+                <hr class="my-2">
+                <div class="text-center flex-none">{{ $orderItem->product->name }}</div>
+                <div class="text-center flex-none">{{ $orderItem->observations }}</div>
+                <div class="absolute right-0 bottom-0 p-2"><i class="{{ OrderItemsStatus::from($orderItem->status)->icon() }}"></i></div>
             </div>
         @endforeach
-    </div> --}}
+    </div>
+
+    <x-dialog-modal wire:model.live="confirmMark">
+        <x-slot name="title">
+            {{ __('Gerenciar Pedido') }}
+        </x-slot>
+
+        <x-slot name="content">
+            @if ($confirmItem)
+            <div class="text-right">
+                <x-button wire:click="setCanceled" class="bg-red-500 text-black">Cancelar Pedido</x-button>
+            </div>
+            <hr class="my-2">
+            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ OrderItemsStatus::from($confirmItem->status)->color() }} shadow-lg w-full">
+                <div class="text-center flex-none">#{{ $confirmItem->id }}</div>
+                <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $confirmItem->order->card->id }} {{ $confirmItem->order->card->identity ? '(' . $confirmItem->order->card->identity . ')' : '' }}</div>
+                <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $confirmItem->order->card->cardPhysical ? $confirmItem->order->card->cardPhysical->id : 'N/D' }}</div>
+                <div class="text-center flex-none"><i class="fas fa-chair"></i> {{ $confirmItem->order->card->table ? $confirmItem->order->card->table->id : 'N/D' }}</div>
+                <hr class="my-2">
+                <div class="text-center flex-none">{{ $confirmItem->product->name }}</div>
+                <div class="text-center flex-none">{{ $confirmItem->observations }}</div>
+                <div class="absolute right-0 bottom-0 p-2"><i class="{{ OrderItemsStatus::from($confirmItem->status)->icon() }}"></i></div>
+            </div>
+            <hr class="my-2">
+            <div class="text-center">
+                <x-button wire:click="setDelivered" class="bg-green-500">Marcar como Entregue</x-button>
+            </div>
+            @endif
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmMark')" wire:loading.attr="disabled" autofocus>
+                {{ __('Cancelar') }}
+            </x-secondary-button>
+        </x-slot>
+    </x-dialog-modal>
 </div>

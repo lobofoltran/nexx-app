@@ -14,6 +14,7 @@ return new class extends Migration
     {
         Schema::create('atcm_tables', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->string('identity', 256)->nullable();
             $table->enum('status', TableStatus::options());
             $table->integer('cards_quantity')->default(0);

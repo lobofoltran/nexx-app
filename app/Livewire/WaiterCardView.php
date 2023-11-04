@@ -6,9 +6,11 @@ use App\Actions\CreateNewGroupCardAction;
 use App\Actions\CreateNewGroupTableAction;
 use App\Actions\DeleteGroupCardAction;
 use App\Actions\UpdateCardAction;
+use App\Enums\CardPhysicalStatus;
 use App\Enums\CardStatus;
 use App\Enums\TableStatus;
 use App\Models\Card;
+use App\Models\CardPhysical;
 use App\Models\GroupCard;
 use App\Models\Table;
 use Livewire\Component;
@@ -22,6 +24,35 @@ class WaiterCardView extends Component
     public $atcm_table_id;
     public $confirmingEditIdentity = false;
     public $confirmingEditTable = false;
+    public $confirmingEditCardPhysical = false;
+    public $newCardPhysical;
+
+    public function confirmEditCardPhysical()
+    {
+        $this->confirmingEditCardPhysical = !$this->confirmingEditCardPhysical;
+    }
+
+    public function editCardPhysical()
+    {
+        UpdateCardAction::handle($this->card, $this->card->identity, $this->card->table, CardPhysical::find($this->newCardPhysical));
+
+        $this->confirmingEditCardPhysical = false;
+        $this->card->refresh();
+    }
+
+    public function viewCardPhysical()
+    {
+        if ($this->card->cardPhysical) {
+            $this->redirectRoute('waiter.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
+        }
+    } 
+
+    public function viewTable()
+    {
+        if ($this->card->table) {
+            $this->redirectRoute('waiter.table-view', ['table' => $this->card->table->id]);
+        }
+    }
 
     public function confirmEditIdentity(): void
     {
@@ -100,10 +131,10 @@ class WaiterCardView extends Component
 
     public function editIdentity(): void
     {
-        UpdateCardAction::handle($this->card, $this->identity, $this->card->table);
+        UpdateCardAction::handle($this->card, $this->identity, $this->card->table, $this->card->cardPhysical);
 
-        $this->card->refresh();
         $this->confirmingEditIdentity = false;
+        $this->card->refresh();
     }
 
     public function confirmEditTable(): void
@@ -113,10 +144,10 @@ class WaiterCardView extends Component
 
     public function editTable(): void
     {
-        UpdateCardAction::handle($this->card, $this->card->identity, Table::find($this->atcm_table_id));
+        UpdateCardAction::handle($this->card, $this->card->identity, Table::find($this->atcm_table_id), $this->card->cardPhysical);
         
-        $this->card->refresh();
         $this->confirmingEditTable = false;
+        $this->card->refresh();
     }
 
     public function returnPage()
@@ -134,14 +165,18 @@ class WaiterCardView extends Component
         return $this->redirectRoute('waiter.payment', ['card' => $this->card->id]);
     }
 
+    public $cardsPhysical;
+
     public function mount()
     {
         $this->route = url()->previous();
         $this->card = Card::find(request('card'));
         $this->identity = $this->card->identity;
         $this->atcm_table_id = $this->card->table ? $this->card->table->id : null;
-        $this->tables = Table::where('status', TableStatus::Available->value)->get();
+        $this->tables = Table::whereIn('status', [TableStatus::Available->value, TableStatus::InUse->value, TableStatus::Grouped->value, TableStatus::WaitingCleaning->value])->get();
+        $this->cardsPhysical = CardPhysical::where('status', CardPhysicalStatus::Available->value)->get();
         $this->cards = Card::where('status', CardStatus::Active->value)->get();
+        $this->cardsPhysical = CardPhysical::where('status', CardPhysicalStatus::Available->value)->get();
     }
 
     public function render()

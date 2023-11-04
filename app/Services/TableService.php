@@ -25,13 +25,48 @@ class TableService
 
     public static function setAvailable(Table $table): Table
     {
-        $table->cards_quantity = 0;
-        $table->status = TableStatus::Available->value;
+        $table->refresh();
+
+        $table->cards_quantity = self::getQuantityCards($table); 
+
+        if (!self::hasCostumerInTable($table)) {
+            $table->cards_quantity = 0;
+            $table->status = TableStatus::Available->value;
+
+            CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Status da mesa alterado para "Disponível"');
+        }
+
+        CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Quantidade de comandas alterada para "' . $table->cards_quantity . '"');
+        
         $table->save();
 
-        CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Status da mesa alterado para "Disponível"');
-
         return $table;
+    }
+
+    public static function hasCostumerInTable(Table $table): bool
+    {
+        $has = false;
+
+        foreach ($table->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card) {
+            if ($table->id == $card->table->id) {
+                $has = true;
+            }
+        }
+
+        return $has;
+    }
+
+    public static function getQuantityCards(Table $table): int
+    {
+        $count = 0;
+
+        foreach ($table->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card) {
+            if ($table->id == $card->table->id) {
+                $count += 1;
+            }
+        }
+
+        return $count;
     }
 
     public static function setGrouped(Table $table, Table $toTable): array
@@ -51,12 +86,7 @@ class TableService
 
     public static function setInUse(Table $table): Table
     {
-        if ($table->status === TableStatus::InUse->value) {
-            $table->cards_quantity += 1; 
-        } else {
-            $table->cards_quantity = 1;
-        }
-
+        $table->cards_quantity = self::getQuantityCards($table); 
         $table->status = TableStatus::InUse->value;
         $table->save();
 

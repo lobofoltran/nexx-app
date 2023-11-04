@@ -38,4 +38,16 @@ enum OrderItemsStatus: string
             static::Canceled  => 'text-white border-red-600 bg-red-500'
         };
     }
+
+    public function icon(): string
+    {
+        return match($this) {
+            static::Assessing => 'fas fa-circle-exclamation',
+            static::Preparing => 'fas fa-hammer',
+            static::Concluded => 'fas fa-check-circle',
+            static::Delivered => 'fas fa-truck',
+            static::Rejected  => 'fas fa-times-circle',
+            static::Canceled  => 'fas fa-times-circle'
+        };
+    }
 }

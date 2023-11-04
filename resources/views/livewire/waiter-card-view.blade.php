@@ -37,9 +37,35 @@
         <div class="bg-white dark:bg-gray-800 pt-4 px-4 border rounded">
             <div class="text-center text-lg">Comanda</div>
             <hr>
+            <div class="my-4 visible-print text-center">
+                {!! QrCode::generate($card->routeCostumer()) !!}
+            </div>
             <div class="my-4"><b>• Comanda:</b> {{ $card->id }}</div>
-            <div class="my-2 flex justify-between"><div><b>• Identificação:</b> {{ $card->identity }}</div> @if ($card->status !== CardStatus::Closed->value) <x-button wire:click="confirmEditIdentity" wire:loading.attr="disabled">{{ __('Editar') }}</x-button>@endif</div>
-            <div class="my-2 flex justify-between"><div><b>• Mesa:</b> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity. ')' : '') : '' }} </div> @if ($card->status !== CardStatus::Closed::Active->value) <x-button wire:click="confirmEditTable" wire:loading.attr="disabled">{{ __('Editar') }}</x-button>@endif</div>
+            <div class="my-2 flex justify-between"><div><b>• Identificação:</b> {{ $card->identity }}</div> 
+                @if ($card->status !== CardStatus::Closed->value) 
+                    <x-button wire:click="confirmEditIdentity" wire:loading.attr="disabled">{{ __('Editar') }}</x-button>
+                @endif
+            </div>
+            <div class="my-2 flex justify-between"><div><b>• Comanda Física:</b> {{ $card->cardPhysical ? $card->cardPhysical->id : '' }}</div> 
+                @if ($card->status !== CardStatus::Closed->value) 
+                    <div>
+                        @if ($card->cardPhysical)
+                            <x-button wire:click="viewCardPhysical" wire:loading.attr="disabled">{{ __('Visualizar') }}</x-button>
+                        @endif
+                        <x-button wire:click="confirmEditCardPhysical" wire:loading.attr="disabled">{{ __('Editar') }}</x-button>
+                    </div>
+                @endif
+            </div>
+            <div class="my-2 flex justify-between"><div><b>• Mesa:</b> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity. ')' : '') : '' }} </div> 
+                @if ($card->status !== CardStatus::Closed->value) 
+                    <div>
+                        @if ($card->table)
+                            <x-button wire:click="viewTable" wire:loading.attr="disabled">{{ __('Visualizar') }}</x-button>
+                        @endif
+                        <x-button wire:click="confirmEditTable" wire:loading.attr="disabled">{{ __('Editar') }}</x-button>
+                    </div>    
+                @endif
+            </div>
             <div class="my-4"><b>• Tempo decorrido:</b> {{ $card->getTime() }}</div>
             <div class="my-4"><b>• Subtotal: </b> @money($card->getConsummation())</div>
             <div class="my-4"><b>• Pago: </b> @money($card->getPaid())</div>
@@ -65,7 +91,6 @@
                             <td class="text-center">{{ $groupment->card->identity }}</td>
                             <td><x-button wire:click="viewCard({{ $groupment->card }})" class="text-center">Visualizar</x-button></td>
                             <td><x-button wire:click="removeGropment({{ $groupment }})" class="text-center"><i class="fas fa-trash"></i></x-button></td>
-
                         </tr>
                     @endforeach
                     </tbody>
@@ -171,6 +196,35 @@
             </x-slot>
         </x-dialog-modal>
 
+        <x-dialog-modal wire:model.live="confirmingEditCardPhysical">
+            <x-slot name="title">
+                {{ __('Editar Comanda Física') }}
+            </x-slot>
+    
+            <x-slot name="content">
+                <div class="mt-4">
+                    <x-label for="newCardPhysical" value="{{ __('Comanda Física') }}" />
+                    <select wire:model="newCardPhysical" id="newCardPhysical" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
+                        <option value="">Sem Comanda Física</option>
+                        @foreach ($cardsPhysical as $cardPhysical)
+                            <option value="{{ $cardPhysical->id }}">{{ $cardPhysical->id }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </x-slot>
+    
+            <x-slot name="footer">
+                <x-secondary-button wire:click="$toggle('confirmingEditCardPhysical')" wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-secondary-button>
+    
+                <x-button class="ml-3" wire:click="editCardPhysical" wire:loading.attr="disabled" class="ml-2 text-green-600 bg-green-600">
+                    {{ __('Salvar') }}
+                </x-button>
+            </x-slot>
+        </x-dialog-modal>
+
+
         <x-dialog-modal wire:model.live="confirmingEditTable">
             <x-slot name="title">
                 {{ __('Editar Mesa') }}
@@ -182,7 +236,7 @@
                     <select wire:model="atcm_table_id" id="atcm_table_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
                         <option value="">Sem mesa</option>
                         @foreach ($tables as $table)
-                            <option value="{{ $table->id }}">{{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
+                            <option value="{{ $table->id }}">({{ TableStatus::from($table->status)->label() }}) {{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -244,7 +298,7 @@
                 <select wire:model="atcm_table_id" id="atcm_table_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
                     <option value=""></option>
                     @foreach ($tables as $table)
-                        <option wire:click="setTableNullFalse" value="{{ $table->id }}">{{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
+                        <option wire:click="setTableNullFalse" value="{{ $table->id }}">({{ TableStatus::from($table->status)->label() }}) {{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
                     @endforeach
                 </select>
             </div>

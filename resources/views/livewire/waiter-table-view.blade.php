@@ -8,21 +8,28 @@
     @if ($table)
     <hr>
         <div class="p-2 grid grid-cols-3 gap-1 my-2 text-white">
+            @if ($table->status === TableStatus::Available->value || $table->status === TableStatus::InUse->value || $table->status === TableStatus::Grouped->value)
+                <x-button wire:click="confirmAddCard" wire:loading.attr="disabled">
+                    {{ __('Abrir Comanda') }}
+                </x-button>
+            @endif
             @if ($table->status === TableStatus::InUse->value || $table->status === TableStatus::Grouped->value)
                 <x-button class="text-green-600 bg-green-600" wire:click="confirmGroupTables" wire:loading.attr="disabled">
                     {{ __('Agrupar Mesas') }}
                 </x-button>
             @endif
-            @if ($table->status === TableStatus::WaitingCleaning->value)
-            <x-button wire:click="setAvalible" wire:loading.attr="disabled">
-                {{ __('Setar como Limpa') }}
-            </x-button>
-        @endif
-
+                @if ($table->status === TableStatus::WaitingCleaning->value)
+                <x-button wire:click="setAvalible" wire:loading.attr="disabled">
+                    {{ __('Setar como Limpa') }}
+                </x-button>
+            @endif
         </div>
         <div class="bg-white dark:bg-gray-800 pt-4 px-4 border rounded">
             <div class="text-center text-lg">Mesa</div>
             <hr>
+            <div class="my-4 visible-print text-center">
+                {!! QrCode::generate($table->routeCostumer()) !!}
+            </div>
             <div class="my-4"><b>• Mesa:</b> {{ $table->id }}</div>
             <div class="my-2 flex justify-between"><div><b>• Identificação:</b> {{ $table->identity }}</div></div>
             <div class="my-4"><b>• Tempo decorrido:</b> {{ $table->getTime() }}</div>

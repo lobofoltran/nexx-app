@@ -6,6 +6,7 @@ use App\Enums\CardStatus;
 use App\Enums\OrderItemsStatus;
 use App\Enums\PaymentStatus;
 use App\Models\Card;
+use App\Models\CardPhysical;
 use App\Models\Table;
 use DateTime;
 
@@ -41,7 +42,7 @@ class CardService
         return [$card, $toCard];
     }
 
-    public static function setClosed(Card $card): Card
+    public static function setClosed(Card $card, bool $groupment = true): Card
     {
         if (self::getConsummation($card, true) <= self::getPaid($card, true)) {
             $card->status = CardStatus::Closed->value;
@@ -55,17 +56,15 @@ class CardService
                 TableService::setWaitingCleaning($table);
             }
 
-            foreach ($card->groupments as $groupment) {
-                $card = $groupment->card;
-                $card->status = CardStatus::Closed->value;
-                $card->save();
-    
-                CreateNewCardMovimentationAction::handle($card, Card::class, $card->id, 'update', 'Status da comanda alterado para "Fechada"');
-    
-                $table = $card->table;
-                
-                if ($table instanceof Table) {
-                    TableService::setWaitingCleaning($table);
+            $cardPhysical = $card->cardPhysical;
+            
+            if ($cardPhysical instanceof CardPhysical) {
+                CardPhysicalService::setAvailable($cardPhysical);
+            }
+
+            if ($groupment) {
+                foreach ($card->groupments as $groupment) {
+                    self::setClosed($groupment->card, false);
                 }
             }
         }
@@ -89,13 +88,14 @@ class CardService
 
         if ($group) {
             foreach ($card->groupments as $group) {
-                foreach ($group->card->orders as $order) {
-                    foreach ($order->orderItems as $orderItem) {
-                        if (!in_array($orderItem->status, $arrayStatusOrderItemsToNotCashIn)) {
-                            $value += $orderItem->value;
-                        }
-                    }
-                }
+                $value += self::getConsummation($group->card, false);
+                // foreach ($group->card->orders as $order) {
+                //     foreach ($order->orderItems as $orderItem) {
+                //         if (!in_array($orderItem->status, $arrayStatusOrderItemsToNotCashIn)) {
+                //             $value += $orderItem->value;
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -114,9 +114,10 @@ class CardService
 
         if ($group) {
             foreach ($card->groupments as $group) {
-                foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-                    $payments += $payment->value;
-                }        
+                $payments += self::getPaid($group->card, false);
+                // foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
+                //     $payments += $payment->value;
+                // }
             }
         }
 
@@ -130,14 +131,15 @@ class CardService
         $card->refresh();
 
         foreach ($card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-            $transshipments = $payment->transshipment;
+            $transshipments += $payment->transshipment;
         }
 
         if ($group) {
             foreach ($card->groupments as $group) {
-                foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-                    $transshipments = $payment->transshipment;
-                }        
+                $transshipments += self::getTransshipment($group->card, false);
+                // foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
+                //     $transshipments += $payment->transshipment;
+                // }        
             }
         }
 

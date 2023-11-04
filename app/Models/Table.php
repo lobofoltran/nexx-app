@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Scopes\OwnerScope;
 use App\Services\TableService;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Table extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     /**
      * The table associated with the model.
@@ -28,6 +29,21 @@ class Table extends Model
     protected $fillable = [
         'identity',
     ];
+
+    /**
+     * Get the columns that should receive a unique identifier.
+     *
+     * @return array<int, string>
+     */
+    public function uniqueIds(): array
+    {
+        return ['uuid'];
+    }
+
+    public function routeCostumer(): string
+    {
+        return request()->schemeAndHttpHost() . "/client/table/{$this->uuid}";
+    }
 
     public function cards(): HasMany
     {

@@ -47,6 +47,11 @@ class Card extends Model
         return $this->belongsTo(Table::class, 'atcm_table_id');
     }
 
+    public function cardPhysical(): BelongsTo
+    {
+        return $this->belongsTo(CardPhysical::class, 'atcm_card_physical_id');
+    }
+
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class, 'atcm_card_id');
@@ -70,6 +75,11 @@ class Card extends Model
     public function groupments(): HasMany
     {
         return $this->hasMany(GroupCard::class, 'atcm_card_id');
+    }
+
+    public function routeCostumer(): string
+    {
+        return request()->schemeAndHttpHost() . "/client/virtual/{$this->uuid}";
     }
 
     public function getConsummation(): string

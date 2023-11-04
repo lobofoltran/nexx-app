@@ -26,7 +26,16 @@ enum CardStatus: string
         return match($this) {
             static::Active => 'text-white border-blue-600 bg-blue-500',
             static::Grouped => 'text-white border-sky-600 bg-sky-500',
-            static::Closed => 'text-white border-red-600 bg-red-500',
+            static::Closed => 'text-white border-zinc-600 bg-zinc-500',
+        };
+    }
+
+    public function icon(): string
+    {
+        return match($this) {
+            static::Active => 'fas fa-check-circle',
+            static::Grouped => 'fas fa-link',
+            static::Closed => 'fas fa-circle-xmark',
         };
     }
 }

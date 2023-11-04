@@ -1,4 +1,17 @@
 <div>
+    <div>
+        <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+            <ul class="space-x-8 flex flex-wrap -mb-px">
+                <x-nav-link href="{{ route('waiter.card') }}" class="py-2 px-4" :active="request()->routeIs('waiter.card')">
+                    {{ __('Comandas Virtuais') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('waiter.cards-physical') }}" class="py-2 px-4" :active="request()->routeIs('waiter.cards-physical')">
+                    {{ __('Comandas Físicas') }}
+                </x-nav-link>
+            </ul>
+        </div>
+    </div>
+
     <div class="my-2">
         <div class="relative rounded-lg shadow-sm w-full">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-auto">
@@ -25,17 +38,22 @@
         @endforeach
     </div>
     <hr>
-    {{-- <div class="grid grid-cols-3 gap-4 mt-2 text-white">
-        @foreach ($tables as $table)
-            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ TableStatus::from($table->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewTable({{ $table }})">
-                <div class="text-center flex-none">{{ $table->id }} {{ $table->identity ? '(' . $table->identity . ')' : '' }}</div>
-                <div class="text-center flex-none"><i class="fas fa-users"></i> {{ $table->cards_quantity }}</div>
-                <div class="text-center flex-none"><i class="fas fa-clock"></i> {{ $table->getTime() }}</div>
-                <div class="text-center flex-none">@money($table->getConsummation())</div>
-                @if ($table->status === TableStatus::Grouped->value)
-                    <div class="absolute right-0 bottom-0 p-2"><i class="fas fa-paperclip"></i></div>
-                @endif
+    <div class="grid grid-cols-3 gap-4 mt-2 text-white">
+        @foreach ($cardPhysicals as $cardPhysical)
+            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ CardPhysicalStatus::from($cardPhysical->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCardPhysical({{ $cardPhysical }})">
+                <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $cardPhysical->id }}</div>
+                <div class="text-center flex-none"><i class="fas fa-address-card"></i> 
+                    {{ $cardPhysical->currentCard()->first() ? $cardPhysical->currentCard()->first()->id : '' }} 
+                    {{ $cardPhysical->currentCard()->first() ? ($cardPhysical->currentCard()->first()->identity ? '(' . $cardPhysical->currentCard()->first()->identity . ')' : '') : '' }}
+                </div>
+                <div class="text-center flex-1"><i class="fas fa-chair"></i> 
+                    {{ $cardPhysical->currentCard()->first() ? ($cardPhysical->currentCard()->first()->table ? $cardPhysical->currentCard()->first()->table->id . 
+                        ($cardPhysical->currentCard()->first()->table->identity ? ' (' . $cardPhysical->currentCard()->first()->table->identity . ')' : '') : 'N/D') : '' }}
+                </div>
+                <div class="text-center flex-1"><i class="fas fa-clock text-sm"></i> {{ $cardPhysical->currentCard()->first() ? $cardPhysical->currentCard()->first()->getTime() : ''}}</div>
+                <div class="text-center flex-none">@money($cardPhysical->currentCard()->first() ? $cardPhysical->currentCard()->first()->getConsummationTotal() : '0')</div>
+                <div class="absolute right-0 bottom-0 p-2"><i class="{{ CardPhysicalStatus::from($cardPhysical->status)->icon() }}"></i></div>
             </div>
         @endforeach
-    </div> --}}
+    </div>
 </div>

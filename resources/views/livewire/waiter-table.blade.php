@@ -29,12 +29,10 @@
         @foreach ($tables as $table)
             <div class="flex flex-col relative justify-between p-4 rounded-lg {{ TableStatus::from($table->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewTable({{ $table }})">
                 <div class="text-center flex-none">{{ $table->id }} {{ $table->identity ? '(' . $table->identity . ')' : '' }}</div>
-                <div class="text-center flex-none"><i class="fas fa-users text-sm"></i> {{ $table->cards_quantity }}</div>
+                <div class="text-center flex-none"><i class="fas fa-address-card text-sm"></i> {{ $table->cards_quantity }}</div>
                 <div class="text-center flex-none"><i class="fas fa-clock text-sm"></i> {{ $table->getTime() }}</div>
                 <div class="text-center flex-none">@money($table->getConsummation())</div>
-                @if ($table->status === TableStatus::Grouped->value)
-                    <div class="absolute right-0 bottom-0 p-2"><i class="fas fa-paperclip"></i></div>
-                @endif
+                <div class="absolute right-0 bottom-0 p-2"><i class="{{ TableStatus::from($table->status)->icon() }}"></i></div>
             </div>
         @endforeach
     </div>

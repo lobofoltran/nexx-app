@@ -24,9 +24,19 @@ enum CardPhysicalStatus: string
     public function color(): string
     {
         return match($this) {
-            static::Available => 'text-white border-yellow-600 bg-yellow-500',
+            static::Available => 'text-white border-green-600 bg-green-500',
             static::InUse     => 'text-white border-blue-600 bg-blue-500',
-            static::Disabled  => 'text-white border-red-600 bg-red-500',
+            static::Disabled  => 'text-white border-zinc-600 bg-zinc-500',
         };
     }
+
+    public function icon(): string
+    {
+        return match($this) {
+            static::Available => 'fas fa-circle-pause',
+            static::InUse     => 'fas fa-check-circle',
+            static::Disabled  => 'fas fa-times-circle',
+        };
+    }
+
 }

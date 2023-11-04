@@ -1,4 +1,17 @@
 <div>
+    <div>
+        <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
+            <ul class="space-x-8 flex flex-wrap -mb-px">
+                <x-nav-link href="{{ route('waiter.card') }}" class="py-2 px-4" :active="request()->routeIs('waiter.card')">
+                    {{ __('Comandas Virtuais') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('waiter.cards-physical') }}" class="py-2 px-4" :active="request()->routeIs('waiter.cards-physical')">
+                    {{ __('Comandas Físicas') }}
+                </x-nav-link>
+            </ul>
+        </div>
+    </div>
+    
     <div class="my-2 flex justify-end">
         <x-button class="text-green-600 bg-green-600" wire:click="confirmAddCard" wire:loading.attr="disabled">
             {{ __('Abrir Nova Comanda') }}
@@ -33,14 +46,13 @@
     <hr>
     <div class="grid grid-cols-3 gap-4 mt-2 text-white">
         @foreach ($cards as $card)
-            <div class="relative flex flex-col justify-between p-4 rounded-lg {{ CardStatus::from($card->status)->color() }} shadow-lg h-32 w-full cursor-pointer" wire:click="viewCard({{ $card }})">
-                <div class="text-center flex-none">{{ $card->id }} {{ $card->table ? '(' . $card->table->id . ')' : '' }}</div>
-                <div class="text-center flex-1">{{ $card->identity ?? '' }}</div>
+            <div class="relative flex flex-col justify-between p-4 rounded-lg {{ CardStatus::from($card->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCard({{ $card }})">
+                <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $card->id }} {{ $card->identity ? '(' . $card->identity . ')' : '' }}</div>
+                <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $card->cardPhysical ? $card->cardPhysical->id : 'N/D' }}</div>
+                <div class="text-center flex-1"><i class="fas fa-chair"></i> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity . ')' : '') : 'N/D' }}</div>
                 <div class="text-center flex-1"><i class="fas fa-clock text-sm"></i> {{ $card->getTime() }}</div>
-                <div class="text-center flex-none">@money($card->getConsummation())</div>
-                @if ($card->status === CardStatus::Grouped->value)
-                    <div class="absolute right-0 bottom-0 p-2"><i class="fas fa-paperclip"></i></div>
-                @endif
+                <div class="text-center flex-none">@money($card->getConsummationTotal())</div>
+                <div class="absolute right-0 bottom-0 p-2"><i class="{{ CardStatus::from($card->status)->icon() }}"></i></div>
             </div>
         @endforeach
     </div>
@@ -52,15 +64,13 @@
 
         <x-slot name="content">
             <div class="mt-4">
-                <x-label for="atcm_qrcode_id" value="{{ __('Comanda Física') }}" />
-                <select wire:model="atcm_qrcode_id" id="atcm_qrcode_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
+                <x-label for="atcm_card_physical_id" value="{{ __('Comanda Física') }}" />
+                <select wire:model="atcm_card_physical_id" id="atcm_card_physical_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
                     <option value="">Sem Comanda Física</option>
+                    @foreach ($cardsPhysical as $cardPhysical)
+                        <option value="{{ $cardPhysical->id }}">{{ $cardPhysical->id }}</option>
+                    @endforeach
                 </select>
-            </div>
-
-            <div class="mt-4">
-                <x-label for="identity" value="{{ __('Identificação') }}" />
-                <x-input id="identity" type="text" class="mt-1 block w-3/4" wire:model="identity"/>
             </div>
 
             <div class="mt-4">
@@ -68,9 +78,14 @@
                 <select wire:model="atcm_table_id" id="atcm_table_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
                     <option value="">Sem mesa</option>
                     @foreach ($tables as $table)
-                        <option value="{{ $table->id }}">{{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
+                        <option value="{{ $table->id }}">({{ TableStatus::from($table->status)->label() }}) {{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <x-label for="identity" value="{{ __('Identificação') }}" />
+                <x-input id="identity" type="text" class="mt-1 block w-3/4" wire:model="identity"/>
             </div>
         </x-slot>
 

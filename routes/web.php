@@ -61,27 +61,47 @@ Route::middleware([
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::redirect('/waiter', '/waiter/cards')->name('waiter');
 
+    /**
+     * ROTAS DO GARÇOM
+     */
+    // Comandas
     Route::view('/waiter/cards', 'waiter.card')->name('waiter.card');
     Route::view('/waiter/cards/{card}', 'waiter.card-view')->name('waiter.card-view');
     Route::get('/waiter/cards/{card}/print', [CardController::class, 'printCard'])->name('waiter.card-view.print');
     Route::view('/waiter/cards/{card}/new-order', 'waiter.new-order')->name('waiter.new-order');
     Route::view('/waiter/cards/{card}/payment', 'waiter.payment')->name('waiter.payment');
+    // Comandas Físicas
     Route::view('/waiter/cards-physical', 'waiter.cards-physical')->name('waiter.cards-physical');
+    Route::view('/waiter/cards-physical/{cardPhysical}', 'waiter.cards-physical-view')->name('waiter.cards-physical-view');
+    // Mesas
     Route::view('/waiter/tables', 'waiter.table')->name('waiter.table');
     Route::view('/waiter/table/{table}', 'waiter.table-view')->name('waiter.table-view');
+    // Pedidos
     Route::view('/waiter/orders', 'waiter.order')->name('waiter.order');
 
+    /**
+     * ROTAS DAS ATRAÇÕES
+     */
     Route::redirect('/attraction', '/attraction/entities')->name('attraction');
     Route::view('/attraction/entities', 'attraction.entities')->name('attraction.entities');
 
+    /**
+     * ROTAS DO BAR
+     */
     Route::redirect('/bar', '/bar/orders')->name('bar');
     Route::view('/bar/orders', 'bar.orders')->name('bar.orders');
     Route::view('/bar/orders.tv', 'bar.orders.tv')->name('bar.orders.tv');
 
+    /**
+     * ROTAS DA COZINHA
+     */
     Route::redirect('/kitchen', '/kitchen/orders')->name('kitchen');
     Route::view('/kitchen/orders', 'kitchen.orders')->name('kitchen.orders');
     Route::view('/kitchen/orders/tv', 'kitchen.orders.tv')->name('kitchen.orders.tv');
 
+    /**
+     * ROTAS DO CAIXA
+     */
     Route::redirect('/cashier', '/cashier/cards')->name('cashier');
     Route::view('/cashier/cards', 'cashier.cards')->name('cashier.cards');
     Route::view('/cashier/cards/{card}', 'cashier.card-view')->name('cashier.card-view');
@@ -90,6 +110,9 @@ Route::middleware([
     Route::view('/cashier/cards-physical', 'cashier.cards-physical')->name('cashier.cards-physical');
     Route::view('/cashier/tables', 'cashier.table')->name('cashier.table');
 
+    /**
+     * ROTAS DOS CLIENTES
+     */
     Route::view('/costumer/{card}', 'costumer.card')->name('costumer.card');
     Route::view('/costumer/{card}/new-order', 'costumer.new-order')->name('costumer.new-order');
 });
