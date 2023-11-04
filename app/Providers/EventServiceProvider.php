@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Card;
+use App\Models\CardPhysical;
+use App\Models\GroupCard;
+use App\Models\GroupTable;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemQueue;
@@ -60,6 +63,9 @@ class EventServiceProvider extends ServiceProvider
         PaymentMethod::class   => [OwnerObserver::class, PaymentMethodObserver::class],
         Payment::class         => [OwnerObserver::class, PaymentObserver::class],
         WaitingList::class     => [OwnerObserver::class, WaitingListObserver::class],
+        CardPhysical::class    => [OwnerObserver::class],
+        GroupCard::class       => [OwnerObserver::class],
+        GroupTable::class      => [OwnerObserver::class],
     ];
 
     /**

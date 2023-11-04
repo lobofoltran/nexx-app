@@ -20,4 +20,14 @@ enum ProductEntityStatus: string
             static::Disabled  => 'Desabilitado',
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::Available => 'Disponível',
+            static::InUse     => 'Em Uso',
+            static::Disabled  => 'Desabilitado',
+        };
+    }
+
 }

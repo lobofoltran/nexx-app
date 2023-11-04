@@ -1,5 +1,5 @@
 <div>
-    @if ($card && $card->status == CardStatus::Active->value)
+    @if ($card && $card->status !== CardStatus::Closed->value)
         <div class="px-2">
             <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled">
                 {{ __('Voltar') }}
@@ -12,17 +12,18 @@
                 <div class="my-4"><b>• Comanda:</b> {{ $card->id }}</div>
                 <div class="my-4"><b>• Itens:</b></div>
                 <?php $total = 0 ?>
-                @foreach ($items as $item)
+                @foreach ($items as $key => $item)
                     <div class="flex justify-between py-1 border-b text-black uppercase text-center">
                         <div>{{ $item->name }}</div>
-                        <div>R$ {{ $item->value }},00</div>
+                        <div>@money($item->value)</div>
+                        <div><x-button wire:click="removeItemCart({{ $key }})"><i class="fas fa-trash"></i></x-button></div>
                         <?php $total += $item->value ?>
                     </div>
                 @endforeach
                 @if ($items)
                     <hr>
                     <div class="my-2 flex justify-end">
-                        Subtotal: R$ {{ $total }},00
+                        Subtotal: @money($total)
                     </div>
                     <hr>
                     <div class="my-2 flex justify-end">
@@ -60,7 +61,7 @@
                     @foreach ($category->products as $product)
                         <div class="flex justify-between pt-1 border-b border-neutral-200 text-black uppercase text-center">
                             <div>{{ $product->name }}</div>
-                            <div>R$ {{ $product->value }},00</div>
+                            <div>@money($product->value)</div>
 
                             <x-button class="mb-2" wire:click="addItem({{ $product }})" wire:loading.attr="disabled">
                                 {{ __('Adicionar') }}

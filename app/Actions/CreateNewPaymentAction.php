@@ -22,7 +22,7 @@ class CreateNewPaymentAction
         self::validate($card, $paymentMethod, $value);
 
         $payment = new Payment;
-        $payment->status = PaymentStatus::Open->value;
+        $payment->status = PaymentStatus::Concluded->value;
         $payment->atcm_card_id = self::$card_id;
         $payment->atcm_payment_method_id = self::$payment_method_id;
         $payment->value = self::$value;
@@ -43,7 +43,7 @@ class CreateNewPaymentAction
                 throw new \Exception(__('Comanda não existe!'), 1);
             }
 
-            if ($card->status !== CardStatus::Active->value) {
+            if ($card->status === CardStatus::Closed->value) {
                 throw new \Exception(__('Comanda não ativa!'), 2);
             }
         } else {

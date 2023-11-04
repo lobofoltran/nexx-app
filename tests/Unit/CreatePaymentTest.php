@@ -9,6 +9,7 @@ use App\Actions\CreateNewPaymentMethodAction;
 use App\Actions\CreateNewProductAction;
 use App\Actions\CreateNewProductCategoryAction;
 use App\Enums\CardStatus;
+use App\Services\CardService;
 use App\Services\OrderItemService;
 use App\Services\PaymentService;
 use Tests\TestCase;
@@ -29,6 +30,7 @@ class CreatePaymentTest extends TestCase
         $paymentMethod = CreateNewPaymentMethodAction::handle('Pix');
 
         $payment = CreateNewPaymentAction::handle($card, $paymentMethod, '50');
+        CardService::setClosed($card);
 
         $card->refresh();
 
@@ -56,6 +58,7 @@ class CreatePaymentTest extends TestCase
         $payment = CreateNewPaymentAction::handle($card, $paymentMethod, $paid);
 
         PaymentService::setConcluded($payment);
+        CardService::setClosed($card);
 
         $card->refresh();
 
@@ -85,6 +88,7 @@ class CreatePaymentTest extends TestCase
         
         $payment = CreateNewPaymentAction::handle($card, $paymentMethod, $paid);
         PaymentService::setConcluded($payment);
+        CardService::setClosed($card);
 
         $card->refresh();
 
@@ -114,6 +118,7 @@ class CreatePaymentTest extends TestCase
         
         $payment = CreateNewPaymentAction::handle($card, $paymentMethod, $paid);
         PaymentService::setConcluded($payment);
+        CardService::setClosed($card);
 
         $card->refresh();
 

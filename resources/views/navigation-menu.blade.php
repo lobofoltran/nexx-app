@@ -13,7 +13,27 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
-                        {{ __('Área do Garçom') }}
+                        {{ __('Garçom') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
+                        {{ __('Atrações') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
+                        {{ __('Bar') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
+                        {{ __('Cozinha') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
+                        {{ __('Caixa') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ url('/admin') }}">
+                        {{ __('Cadastros & Relatórios') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -140,7 +160,27 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
-                {{ __('Área do Garçom') }}
+                {{ __('Garçom') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
+                {{ __('Atrações') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
+                {{ __('Bar') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
+                {{ __('Cozinha') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
+                {{ __('Caixa') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ url('/admin') }}">
+                {{ __('Cadastros & Relatórios') }}
             </x-responsive-nav-link>
         </div>
 

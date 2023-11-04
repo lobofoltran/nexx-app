@@ -36,7 +36,7 @@ class WaiterCard extends Component
 
     public function viewCard(Card $card): void
     {
-        $this->redirectRoute('waiter.card-view', ['id'=> $card->id]);
+        $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
     }
 
     public function render()
@@ -44,9 +44,9 @@ class WaiterCard extends Component
         $this->tables = Table::all();
 
         if ($this->search) {
-            $this->cards = Card::search($this->search)->where('status', CardStatus::Active->value)->get();
+            $this->cards = Card::where('id', 'LIKE', '%'. $this->search . '%')->orWhere('identity', 'LIKE', '%'. $this->search . '%')->get();
         } else {
-            $this->cards = Card::where('status', CardStatus::Active->value)->get();
+            $this->cards = Card::where('status', '!=', CardStatus::Closed->value)->get();
         }
 
         return view('livewire.waiter-card');

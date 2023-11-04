@@ -35,7 +35,7 @@ class UpdateCardAction
 
         self::$textMovimentation = 'Atualizada comanda:';
 
-        if ($card->status !== CardStatus::Active->value) {
+        if ($card->status === CardStatus::Closed->value) {
             throw new \Exception(__('Comanda não ativa! Impossível alterar.'), 1);
         }
 

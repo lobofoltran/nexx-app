@@ -24,10 +24,9 @@ enum PaymentStatus: string
     public function color(): string
     {
         return match($this) {
-            static::Open      => 'blue',
-            static::Concluded => 'green',
-            static::Canceled  => 'red',
+            static::Open      => 'text-white bg-blue-500 border-blue-600',
+            static::Concluded => 'text-white bg-green-500 border-green-600',
+            static::Canceled  => 'text-white bg-red-500 border-red-600',
         };
     }
-
 }

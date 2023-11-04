@@ -1,7 +1,7 @@
 <div>
     <div class="my-2 flex justify-end">
         <x-button class="text-green-600 bg-green-600" wire:click="confirmAddCard" wire:loading.attr="disabled">
-            {{ __('Adicionar Comanda') }}
+            {{ __('Abrir Nova Comanda') }}
         </x-button>
     </div>
     <hr>
@@ -23,23 +23,41 @@
         </div>
     </div>
     <hr>
+        <div class="grid grid-cols-3 place-items-center gap-2 my-2">
+            @foreach (CardStatus::cases() as $enumStatus)
+                <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-sm whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
+                    {{ $enumStatus->label() }}
+                </div>
+            @endforeach
+        </div>
+    <hr>
     <div class="grid grid-cols-3 gap-4 mt-2 text-white">
         @foreach ($cards as $card)
-            <div class="flex flex-col justify-between p-4 rounded-lg bg-{{ CardStatus::from($card->status)->color() }}-500 shadow-lg h-32 w-full cursor-pointer" wire:click="viewCard({{ $card }})">
+            <div class="relative flex flex-col justify-between p-4 rounded-lg {{ CardStatus::from($card->status)->color() }} shadow-lg h-32 w-full cursor-pointer" wire:click="viewCard({{ $card }})">
                 <div class="text-center flex-none">{{ $card->id }} {{ $card->table ? '(' . $card->table->id . ')' : '' }}</div>
                 <div class="text-center flex-1">{{ $card->identity ?? '' }}</div>
-                <div class="text-center flex-1">{{ $card->getTime() }}</div>
-                <div class="text-center flex-none">R$ {{ $card->getConsummation() }},00</div>
+                <div class="text-center flex-1"><i class="fas fa-clock text-sm"></i> {{ $card->getTime() }}</div>
+                <div class="text-center flex-none">@money($card->getConsummation())</div>
+                @if ($card->status === CardStatus::Grouped->value)
+                    <div class="absolute right-0 bottom-0 p-2"><i class="fas fa-paperclip"></i></div>
+                @endif
             </div>
         @endforeach
     </div>
 
     <x-dialog-modal wire:model.live="confirmingAddCard">
         <x-slot name="title">
-            {{ __('Adicionar Comanda') }}
+            {{ __('Abrir Nova Comanda') }}
         </x-slot>
 
         <x-slot name="content">
+            <div class="mt-4">
+                <x-label for="atcm_qrcode_id" value="{{ __('Comanda Física') }}" />
+                <select wire:model="atcm_qrcode_id" id="atcm_qrcode_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
+                    <option value="">Sem Comanda Física</option>
+                </select>
+            </div>
+
             <div class="mt-4">
                 <x-label for="identity" value="{{ __('Identificação') }}" />
                 <x-input id="identity" type="text" class="mt-1 block w-3/4" wire:model="identity"/>
@@ -52,13 +70,6 @@
                     @foreach ($tables as $table)
                         <option value="{{ $table->id }}">{{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
                     @endforeach
-                </select>
-            </div>
-
-            <div class="mt-4">
-                <x-label for="atcm_qrcode_id" value="{{ __('QR Code') }}" />
-                <select wire:model="atcm_qrcode_id" id="atcm_qrcode_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
-                    <option value="">Sem QR Code</option>
                 </select>
             </div>
         </x-slot>

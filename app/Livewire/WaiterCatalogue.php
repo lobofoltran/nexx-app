@@ -10,6 +10,7 @@ use Livewire\Component;
 
 class WaiterCatalogue extends Component
 {
+    public $route;
     public $card;
     public $items = [];
     public $search = '';
@@ -18,6 +19,11 @@ class WaiterCatalogue extends Component
     public function addItem(Product $product): void
     {
         $this->items[] = $product;
+    }
+
+    public function removeItemCart(string $key): void
+    {
+        unset($this->items[$key]);
     }
 
     public function sendOrder(): void
@@ -29,15 +35,20 @@ class WaiterCatalogue extends Component
 
     public function returnPage()
     {
-        return $this->redirectRoute('waiter.card-view', ['id' => $this->card->id]);
+        redirect($this->route);
+    }
+    
+    public function mount()
+    {
+        $this->route = url()->previous();
+
+        if (!$this->card) {
+            $this->card = Card::find(request('card'));
+        }
     }
 
     public function render()
     {
-        if (!$this->card) {
-            $this->card = Card::find(request('id'));
-        }
-
         $this->productCategories = ProductCategory::all();
 
         if ($this->search) {

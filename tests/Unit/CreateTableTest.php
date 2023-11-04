@@ -11,6 +11,7 @@ use App\Actions\CreateNewProductCategoryAction;
 use App\Actions\CreateNewTableAction;
 use App\Enums\TableStatus;
 use App\Models\Table;
+use App\Services\CardService;
 use App\Services\PaymentService;
 use Tests\TestCase;
 
@@ -45,7 +46,8 @@ class CreateTableTest extends TestCase
         $paymentMethod = CreateNewPaymentMethodAction::handle('Dinheiro');
         $payment = CreateNewPaymentAction::handle($card, $paymentMethod, $consum);
         PaymentService::setConcluded($payment);
-
+        CardService::setClosed($card);
+        
         $table->refresh();
 
         $this->assertTrue($table->status === TableStatus::WaitingCleaning->value);

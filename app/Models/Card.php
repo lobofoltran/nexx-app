@@ -10,11 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Scout\Searchable;
 
 class Card extends Model
 {
-    use HasFactory, SoftDeletes, HasUuids, Searchable;
+    use HasFactory, SoftDeletes, HasUuids;
 
     /**
      * The table associated with the model.
@@ -68,6 +67,11 @@ class Card extends Model
         return $this->hasMany(CardMovimentation::class, 'atcm_card_id');
     }
 
+    public function groupments(): HasMany
+    {
+        return $this->hasMany(GroupCard::class, 'atcm_card_id');
+    }
+
     public function getConsummation(): string
     {
         return CardService::getConsummation($this);
@@ -77,6 +81,37 @@ class Card extends Model
     {
         return CardService::getPaid($this);
     }
+
+    public function getTransshipment(): string
+    {
+        return CardService::getTransshipment($this);
+    }
+
+    public function getMissing(): string
+    {
+        return CardService::getMissing($this);
+    }
+
+    public function getConsummationTotal(): string
+    {
+        return CardService::getConsummation($this, true);
+    }
+
+    public function getPaidTotal(): string
+    {
+        return CardService::getPaid($this, true);
+    }
+
+    public function getTransshipmentTotal(): string
+    {
+        return CardService::getTransshipment($this, true);
+    }
+
+    public function getMissingTotal(): string
+    {
+        return CardService::getMissing($this, true);
+    }
+
 
     public function getTime(): string
     {

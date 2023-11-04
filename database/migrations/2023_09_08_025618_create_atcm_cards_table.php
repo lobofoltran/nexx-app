@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreignId('atcm_table_id')->nullable()->constrained();
+            $table->foreignId('atcm_card_physical_id')->nullable()->constrained();
             $table->unsignedBigInteger('owner_id')->nullable();
         });
     }

@@ -20,4 +20,14 @@ enum OrderItemQueueStatus: string
             static::Canceled  => 'Cancelado',
         };
     }
+
+    public function color(): string
+    {
+        return match($this) {
+            static::InQueue   => 'Na Fila',
+            static::Done      => 'Finalizado',
+            static::Canceled  => 'Cancelado',
+        };
+    }
+
 }

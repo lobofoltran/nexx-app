@@ -9,20 +9,20 @@ enum OrderItemsStatus: string
     use OptionsEnum;
 
     case Assessing = 'assessing';
-    case Rejected = 'rejected';
     case Preparing = 'preparing';
     case Concluded = 'concluded';
     case Delivered = 'delivered';
+    case Rejected = 'rejected';
     case Canceled = 'canceled';
 
     public function label(): string
     {
         return match($this) {
             static::Assessing => 'Avaliando',
-            static::Rejected  => 'Rejeitado',
             static::Preparing => 'Preparando',
             static::Concluded => 'Concluído',
             static::Delivered => 'Entregue',
+            static::Rejected  => 'Rejeitado',
             static::Canceled  => 'Cancelado',
         };
     }
@@ -30,12 +30,12 @@ enum OrderItemsStatus: string
     public function color(): string
     {
         return match($this) {
-            static::Assessing => 'yellow',
-            static::Rejected  => 'red',
-            static::Preparing => 'blue',
-            static::Concluded => 'blue',
-            static::Delivered => 'green',
-            static::Canceled  => 'red',
+            static::Assessing => 'text-white border-yellow-600 bg-yellow-500',
+            static::Preparing => 'text-white border-sky-600 bg-sky-500',
+            static::Concluded => 'text-white border-blue-600 bg-blue-500',
+            static::Delivered => 'text-white border-green-600 bg-green-500',
+            static::Rejected  => 'text-white border-red-600 bg-red-500',
+            static::Canceled  => 'text-white border-red-600 bg-red-500'
         };
     }
 }

@@ -6,5 +6,6 @@
     </x-slot>
     <div class="max-w-2xl mx-auto mt-4">
         @livewire('waiter-tab')
+        @livewire('waiter-order')
     </div>
 </x-app-layout>

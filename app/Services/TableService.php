@@ -8,6 +8,21 @@ use App\Models\Table;
 
 class TableService
 {
+    public static function removeGroupment(Table $table, Table $toTable): array
+    {
+        if (sizeof($table->groupments) <= 0) {
+            $table->status = TableStatus::InUse->value;
+            $table->save();    
+        }
+
+        if (sizeof($toTable->groupments) <= 0) {
+            $toTable->status = TableStatus::InUse->value;
+            $toTable->save();    
+        }
+
+        return [$table, $toTable];
+    }
+
     public static function setAvailable(Table $table): Table
     {
         $table->cards_quantity = 0;
@@ -17,6 +32,21 @@ class TableService
         CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Status da mesa alterado para "Disponível"');
 
         return $table;
+    }
+
+    public static function setGrouped(Table $table, Table $toTable): array
+    {
+        $table->status = TableStatus::Grouped->value;
+        $table->save();
+
+        CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Status da mesa alterado para "Agrupado"');
+
+        $toTable->status = TableStatus::Grouped->value;
+        $toTable->save();
+
+        CreateNewTableMovimentationAction::handle($toTable, Table::class, $toTable->id, 'update', 'Status da mesa alterado para "Agrupado"');
+
+        return [$table, $toTable];
     }
 
     public static function setInUse(Table $table): Table
@@ -70,5 +100,25 @@ class TableService
         CreateNewTableMovimentationAction::handle($table, Table::class, $table->id, 'update', 'Status da mesa alterado para "Desabilitado"');
 
         return $table;
+    }
+
+    public static function getConsummation(Table $table): string
+    {
+        $consummation = 0;
+
+        foreach ($table->cards->where('status', CardStatus::Active) as $card) {
+            $consummation += $card->getConsummation();
+        }
+
+        return $consummation;
+    }
+
+    public static function getTime(Table $table): string
+    {
+        if ($table->cards->first()) {
+            return CardService::getTime($table->cards->first());
+        }
+
+        return '00:00:00';
     }
 }

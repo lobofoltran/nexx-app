@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\OwnerScope;
+use App\Services\TableService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,7 +36,22 @@ class Table extends Model
 
     public function movimentations(): HasMany
     {
-        return $this->hasMany(Table::class, 'atcm_table_id');
+        return $this->hasMany(TableMovimentation::class, 'atcm_table_id');
+    }
+
+    public function groupments(): HasMany
+    {
+        return $this->hasMany(GroupTable::class, 'atcm_table_id');
+    }
+
+    public function getConsummation(): string
+    {
+        return TableService::getConsummation($this);
+    }
+
+    public function getTime(): string
+    {
+        return TableService::getTime($this);
     }
 
     /**

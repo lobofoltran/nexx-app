@@ -21,9 +21,9 @@ class PaymentService
 
         CreateNewCardMovimentationAction::handle($payment->card, Payment::class, $payment->id, 'update', 'Status do pagamento alterado para "Concluído"');
 
-        if (CardService::getPaid($card) >= CardService::getConsummation($card)) {
-            CardService::setClosed($card);
-        }
+        // if (CardService::getPaid($card) >= CardService::getConsummation($card)) {
+        //     CardService::setClosed($card);
+        // }
 
         return $payment;
     }

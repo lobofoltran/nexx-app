@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -187,7 +188,10 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Carbon' => Carbon::class,
+        'TableStatus' => App\Enums\TableStatus::class,
         'CardStatus' => App\Enums\CardStatus::class,
+        'CardPhysicalStatus' => App\Enums\CardPhysicalStatus::class,
         'OrderItemsStatus' => App\Enums\OrderItemsStatus::class,
         'PaymentStatus' => App\Enums\PaymentStatus::class,
         // 'Example' => App\Facades\Example::class,

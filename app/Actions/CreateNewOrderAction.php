@@ -34,7 +34,7 @@ class CreateNewOrderAction
     {
         if ($card) {
             if (!$card->exists()) throw new \Exception(__('Comanda não existe!'), 1);
-            if ($card->status !== CardStatus::Active->value) throw new \Exception(__('Comanda não ativa!'), 2);
+            if ($card->status === CardStatus::Closed->value) throw new \Exception(__('Comanda não ativa!'), 2);
         } else {
             throw new \Exception(__('Comanda não existe!'), 1);
         }
