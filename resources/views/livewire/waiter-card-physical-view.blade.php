@@ -9,7 +9,7 @@
     <hr>
         <div class="p-2 grid grid-cols-3 gap-1 my-2 text-white">
             @if ($cardPhysical->status === CardPhysicalStatus::Available->value)
-                <x-button class="text-green-600 bg-green-600" wire:click="confirmOpenCard" wire:loading.attr="disabled">
+                <x-button class="text-green-600 bg-green-600" wire:click="confirmAddCard" wire:loading.attr="disabled">
                     {{ __('Abrir Comanda') }}
                 </x-button>
             @endif
@@ -38,6 +38,38 @@
             @endforeach
         </div>
 
+        <x-dialog-modal wire:model.live="confirmingAddCard">
+            <x-slot name="title">
+                {{ __('Abrir Nova Comanda') }}
+            </x-slot>
+    
+            <x-slot name="content">
+                <div class="mt-4">
+                    <x-label for="atcm_table_id" value="{{ __('Mesa') }}" />
+                    <select wire:model="atcm_table_id" id="atcm_table_id" class="mt-1 block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm'">
+                        <option value="">Sem mesa</option>
+                        @foreach ($tables as $table)
+                            <option value="{{ $table->id }}">({{ TableStatus::from($table->status)->label() }}) {{ $table->id }} {{ $table->identity ? '(' . $table->identity. ')' : ''}}</option>
+                        @endforeach
+                    </select>
+                </div>
+        
+                <div class="mt-4">
+                    <x-label for="identity" value="{{ __('Identificação') }}" />
+                    <x-input id="identity" type="text" class="mt-1 block w-3/4" wire:model="identity"/>
+                </div>
+            </x-slot>
+    
+            <x-slot name="footer">
+                <x-secondary-button wire:click="$toggle('confirmingAddCard')" wire:loading.attr="disabled">
+                    {{ __('Cancelar') }}
+                </x-secondary-button>
+    
+                <x-button class="ml-3" wire:click="createCard" wire:loading.attr="disabled" class="ml-2 text-green-600 bg-green-600">
+                    {{ __('Criar comanda') }}
+                </x-button>
+            </x-slot>
+        </x-dialog-modal>
     @else
         <x-error-message :title="__('Não foi possível completar sua requisição')" :text="__('Comanda Física não existe!')"></x-error-message>
     @endif

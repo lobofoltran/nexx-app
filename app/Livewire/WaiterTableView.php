@@ -2,10 +2,13 @@
 
 namespace App\Livewire;
 
+use App\Actions\CreateNewCardAction;
 use App\Actions\CreateNewGroupTableAction;
 use App\Actions\DeleteGroupCardAction;
 use App\Actions\DeleteGroupTableAction;
+use App\Enums\CardPhysicalStatus;
 use App\Models\Card;
+use App\Models\CardPhysical;
 use App\Models\GroupTable;
 use App\Models\Table;
 use App\Services\TableService;
@@ -19,6 +22,26 @@ class WaiterTableView extends Component
     public $atcm_table_id;
     public $confirmingGroupTables = false;
     public $tableNull = false;
+    public $confirmingAddCard = false;
+    public $identity;
+    public $atcm_card_physical_id;
+    public $cardsPhysical;
+
+    public function confirmAddCard(): void
+    {
+        $this->confirmingAddCard = !$this->confirmingAddCard;
+    }
+
+    public function createCard(): void
+    {
+        CreateNewCardAction::handle($this->table, $this->identity, CardPhysical::find($this->atcm_card_physical_id));
+
+        $this->identity = '';
+        $this->atcm_card_physical_id = '';
+        $this->confirmingAddCard = false;
+
+        $this->table->refresh();
+    }
 
     public function viewTable(Table $table)
     {
@@ -74,6 +97,7 @@ class WaiterTableView extends Component
     {
         $this->route = '/waiter/tables';
         $this->table = Table::find(request('table'));
+        $this->cardsPhysical = CardPhysical::where('status', CardPhysicalStatus::Available->value)->get();
     }
 
     public function render()
