@@ -44,7 +44,7 @@ class CardPhysical extends Model
 
     public function routeCostumer(): string
     {
-        return request()->schemeAndHttpHost() . "/client/physical/{$this->uuid}";
+        return request()->schemeAndHttpHost() . "/costumer/physical/{$this->uuid}";
     }
 
     /**

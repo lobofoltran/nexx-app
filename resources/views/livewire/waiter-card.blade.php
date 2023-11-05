@@ -1,4 +1,5 @@
-<div>
+<div wire:poll.30000ms>
+    @if (request()->routeIs('waiter.*'))        
     <div>
         <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
             <ul class="space-x-8 flex flex-wrap -mb-px">
@@ -11,6 +12,7 @@
             </ul>
         </div>
     </div>
+    @endif
     
     <div class="my-2 flex justify-end">
         <x-button class="text-green-600 bg-green-600" wire:click="confirmAddCard" wire:loading.attr="disabled">
@@ -38,15 +40,15 @@
     <hr>
         <div class="grid grid-cols-3 place-items-center gap-2 my-2">
             @foreach (CardStatus::cases() as $enumStatus)
-                <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-sm whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
+                <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-xs overflow-hidden whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
                     {{ $enumStatus->label() }}
                 </div>
             @endforeach
         </div>
-    <hr>
+    <hr>      
     <div class="grid grid-cols-3 gap-4 mt-2 text-white">
         @foreach ($cards as $card)
-            <div class="relative flex flex-col justify-between p-4 rounded-lg {{ CardStatus::from($card->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCard({{ $card }})">
+            <div tabindex="0" wire:keydown.enter="viewCard({{ $card }})" class="focus:ring-4 ring-offset-2 ring-offset-slate-50 relative flex flex-col justify-between p-4 rounded-lg {{ CardStatus::from($card->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCard({{ $card }})">
                 <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $card->id }} {{ $card->identity ? '(' . $card->identity . ')' : '' }}</div>
                 <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $card->cardPhysical ? $card->cardPhysical->id : 'N/D' }}</div>
                 <div class="text-center flex-1"><i class="fas fa-chair"></i> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity . ')' : '') : 'N/D' }}</div>

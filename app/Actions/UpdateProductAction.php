@@ -11,15 +11,16 @@ class UpdateProductAction
 
     public static function handle(
         Product $product, 
-        ?ProductCategory $productCategory, 
+        ?ProductCategory $productCategory = null,
         ?string $name = null,
-        ?string $value = '0',
         ?string $description = null,
-        ?string $image_url = null,
-        bool $active = true, 
-        bool $show_to_waiter = false,
+        bool $show_to_bar = false,
         bool $show_to_kitchen = false,
-        bool $show_to_cashier = false
+        bool $show_to_cashier = false,
+        ?string $image_url = null,
+        bool $active = true,
+        string $time = '0',
+        string $value = '0',
     ): Product {
         self::validate($product, $productCategory, $name, $value, $description, $active);
 
@@ -27,8 +28,9 @@ class UpdateProductAction
         $product->name = trim($name);
         $product->value = $value;
         $product->description = trim($description);
+        $product->time = $time;
         $product->active = $active;
-        $product->show_to_waiter = $show_to_waiter;
+        $product->show_to_bar = $show_to_bar;
         $product->show_to_kitchen = $show_to_kitchen;
         $product->show_to_cashier = $show_to_cashier;
         $product->image_url = $image_url;

@@ -10,9 +10,13 @@ class WaiterTable extends Component
     public $tables;
     public $search = '';
 
-    public function viewTable(Table $table): void
+    public function viewTable(Table $table)
     {
-        $this->redirectRoute('waiter.table-view', ['table' => $table->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.table-view', ['table' => $table->id]);
+        } else {
+            return redirect()->route('cashier.table-view', ['table' => $table->id]);
+        }
     }
 
     public function render()

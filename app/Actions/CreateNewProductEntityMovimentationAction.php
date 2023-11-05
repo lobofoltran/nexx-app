@@ -10,9 +10,9 @@ class CreateNewProductEntityMovimentationAction
     private static string $user_id;
     private static string $product_entity_id;
 
-    public static function handle(?ProductEntity $productEntity = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null): ProductEntityMovimentation
+    public static function handle(?ProductEntity $productEntity = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null, bool $schedule = false): ProductEntityMovimentation
     {
-        self::validate($productEntity, $modelType, $modelId);
+        self::validate($productEntity, $modelType, $modelId, $schedule);
 
         $productEntityMovimentation = new ProductEntityMovimentation;
         $productEntityMovimentation->atcm_product_entity_id = self::$product_entity_id;
@@ -23,17 +23,17 @@ class CreateNewProductEntityMovimentationAction
         $productEntityMovimentation->details = $details;
         $productEntityMovimentation->save();
 
-        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details);
+        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details, $schedule);
 
         return $productEntityMovimentation;
     }
 
-    private static function validate(?ProductEntity $productEntity, ?string $modelType, ?string $modelId): void
+    private static function validate(?ProductEntity $productEntity, ?string $modelType, ?string $modelId, bool $schedule): void
     {
         if (auth()->user()) {
             self::$user_id = auth()->user()->id;
         } else {
-            if (env('APP_ENV') == 'testing') {
+            if (env('APP_ENV') == 'testing' || $schedule) {
                 self::$user_id = 1;
             } else {
                 throw new \Exception(__('Usuário não existe!'), 2);

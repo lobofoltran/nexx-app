@@ -36,6 +36,8 @@ class CreateCardTest extends TestCase
         $card = CreateNewCardAction::handle($table);
         $this->assertTrue($card->exists());
 
+        $table->refresh();
+
         $this->assertTrue($table->cards_quantity === 2);
     }
 

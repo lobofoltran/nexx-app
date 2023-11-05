@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +97,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +189,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Carbon' => Carbon::class,
+        'OrderItemQueueStatus' => App\Enums\OrderItemQueueStatus::class,
+        'ProductEntityStatus' => App\Enums\ProductEntityStatus::class,
         'TableStatus' => App\Enums\TableStatus::class,
         'CardStatus' => App\Enums\CardStatus::class,
         'CardPhysicalStatus' => App\Enums\CardPhysicalStatus::class,

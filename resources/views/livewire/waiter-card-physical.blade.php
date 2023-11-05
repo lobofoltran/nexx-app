@@ -1,4 +1,5 @@
-<div>
+<div wire:poll.30000ms>
+    @if (request()->routeIs('waiter.*'))        
     <div>
         <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
             <ul class="space-x-8 flex flex-wrap -mb-px">
@@ -11,6 +12,7 @@
             </ul>
         </div>
     </div>
+    @endif
 
     <div class="my-2">
         <div class="relative rounded-lg shadow-sm w-full">
@@ -32,7 +34,7 @@
     <hr>
     <div class="grid grid-cols-3 gap-2 my-2">
         @foreach (CardPhysicalStatus::cases() as $enumStatus)
-            <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-sm whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
+            <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-xs overflow-hidden whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
                 {{ $enumStatus->label() }}
             </div>
         @endforeach
@@ -40,7 +42,7 @@
     <hr>
     <div class="grid grid-cols-3 gap-4 mt-2 text-white">
         @foreach ($cardPhysicals as $cardPhysical)
-            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ CardPhysicalStatus::from($cardPhysical->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCardPhysical({{ $cardPhysical }})">
+            <div tabindex="0" wire:keydown.enter="viewCardPhysical({{ $cardPhysical }})" class="focus:ring-4 ring-offset-2 ring-offset-slate-50 flex flex-col relative justify-between p-4 rounded-lg {{ CardPhysicalStatus::from($cardPhysical->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="viewCardPhysical({{ $cardPhysical }})">
                 <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $cardPhysical->id }}</div>
                 <div class="text-center flex-none"><i class="fas fa-address-card"></i> 
                     {{ $cardPhysical->currentCard()->first() ? $cardPhysical->currentCard()->first()->id : '' }} 

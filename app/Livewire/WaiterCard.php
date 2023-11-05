@@ -41,7 +41,11 @@ class WaiterCard extends Component
 
     public function viewCard(Card $card): void
     {
-        $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
+        if (request()->routeIs('waiter.*')) {
+            $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
+        } else {
+            $this->redirectRoute('cashier.card-view', ['card' => $card->id]);
+        }
     }
 
     public function render()

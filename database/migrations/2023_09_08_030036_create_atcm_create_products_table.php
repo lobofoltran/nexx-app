@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('description', 100)->nullable();
             $table->string('value', 10);
             $table->string('image_url', 256)->nullable();
-            $table->boolean('show_to_waiter')->default(false);
+            $table->string('time')->default('0');
+            $table->boolean('show_to_bar')->default(false);
             $table->boolean('show_to_kitchen')->default(false);
             $table->boolean('show_to_cashier')->default(false);
             $table->boolean('active')->default(true);

@@ -14,6 +14,7 @@ use App\Models\PaymentMethod;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductEntity;
+use App\Models\QueuesEntities;
 use App\Models\Table;
 use App\Models\WaitingList;
 use App\Observers\CardObserver;
@@ -66,6 +67,7 @@ class EventServiceProvider extends ServiceProvider
         CardPhysical::class    => [OwnerObserver::class],
         GroupCard::class       => [OwnerObserver::class],
         GroupTable::class      => [OwnerObserver::class],
+        QueuesEntities::class  => [OwnerObserver::class],
     ];
 
     /**

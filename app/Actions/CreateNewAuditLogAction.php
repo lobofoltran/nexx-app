@@ -8,9 +8,9 @@ class CreateNewAuditLogAction
 {
     private static string $user_id;
 
-    public static function handle(?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null): AuditLog
+    public static function handle(?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null, bool $schedule = false): AuditLog
     {
-        self::validate($modelType, $modelId);
+        self::validate($modelType, $modelId, $schedule);
 
         $auditLog = new AuditLog;
         $auditLog->user_id = self::$user_id;
@@ -23,12 +23,12 @@ class CreateNewAuditLogAction
         return $auditLog;
     }
 
-    private static function validate(?string $modelType, ?string $modelId): void
+    private static function validate(?string $modelType, ?string $modelId, bool $schedule): void
     {
         if (auth()->user()) {
             self::$user_id = auth()->user()->id;
         } else {
-            if (env('APP_ENV') == 'testing') {
+            if (env('APP_ENV') == 'testing' || $schedule) {
                 self::$user_id = 1;
             } else {
                 throw new \Exception(__('Usuário não existe!'), 1);

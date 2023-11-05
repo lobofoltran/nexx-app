@@ -32,6 +32,11 @@ class ProductEntity extends Model
         'status'
     ];
 
+    public function queuesEntities(): HasMany
+    {
+        return $this->hasMany(QueuesEntities::class, 'atcm_product_entities_id');
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'atcm_product_id');
@@ -49,5 +54,4 @@ class ProductEntity extends Model
     {
         static::addGlobalScope(new OwnerScope);
     }
-
 }

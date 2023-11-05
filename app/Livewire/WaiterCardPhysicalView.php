@@ -34,10 +34,13 @@ class WaiterCardPhysicalView extends Component
         $this->cardPhysical->refresh();
     }
 
-    
     public function viewCard(Card $card)
     {
-        return redirect()->route('waiter.card-view', ['card' => $card->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.card-view', ['card' => $card->id]);
+        } else {
+            return redirect()->route('cashier.card-view', ['card' => $card->id]);
+        }
     }
 
     public function returnPage()

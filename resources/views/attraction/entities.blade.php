@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
     <div class="max-w-2xl mx-auto mt-4">
-        @livewire('attraction-tab')
+        @livewire('attraction-attractions')
+        <hr class="my-2">
+        @livewire('attraction-queues')
     </div>
 </x-app-layout>

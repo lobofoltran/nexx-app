@@ -6,5 +6,6 @@
     </x-slot>
     <div class="max-w-2xl mx-auto mt-4">
         @livewire('kitchen-tab')
+        @livewire('kitchen-orders')
     </div>
 </x-app-layout>

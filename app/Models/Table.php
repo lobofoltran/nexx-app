@@ -42,7 +42,7 @@ class Table extends Model
 
     public function routeCostumer(): string
     {
-        return request()->schemeAndHttpHost() . "/client/table/{$this->uuid}";
+        return request()->schemeAndHttpHost() . "/costumer/table/{$this->uuid}";
     }
 
     public function cards(): HasMany

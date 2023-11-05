@@ -60,6 +60,8 @@ class TableService
     {
         $count = 0;
 
+        $table->refresh();
+        
         foreach ($table->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card) {
             if ($table->id == $card->table->id) {
                 $count += 1;

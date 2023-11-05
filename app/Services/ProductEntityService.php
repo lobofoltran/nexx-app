@@ -7,12 +7,12 @@ use App\Models\ProductEntity;
 
 class ProductEntityService
 {
-    public static function setAvailable(ProductEntity $productEntity): ProductEntity
+    public static function setAvailable(ProductEntity $productEntity, bool $schedule = false): ProductEntity
     {
         $productEntity->status = ProductEntityStatus::Available->value;
         $productEntity->save();
 
-        CreateNewProductEntityMovimentationAction::handle($productEntity, ProductEntity::class, $productEntity->id, 'update', 'Status da Entidade de Produto altera para "Disponível"');
+        CreateNewProductEntityMovimentationAction::handle($productEntity, ProductEntity::class, $productEntity->id, 'update', 'Status da Entidade de Produto altera para "Disponível"', $schedule);
 
         return $productEntity;
     }

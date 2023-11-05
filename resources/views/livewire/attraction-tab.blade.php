@@ -4,6 +4,9 @@
             <x-nav-link href="{{ route('attraction.entities') }}" class="py-2 px-4" :active="request()->routeIs('attraction.entities')">
                 {{ __('Atrações') }}
             </x-nav-link>
+            <x-nav-link href="{{ route('attraction.queues') }}" class="py-2 px-4" :active="request()->routeIs('attraction.queues')">
+                {{ __('Fila') }}
+            </x-nav-link>
         </ul>
     </div>
 </div>

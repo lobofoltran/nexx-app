@@ -7,14 +7,24 @@ use App\Models\OrderItemQueue;
 
 class OrderItemQueueService
 {
-    public static function setDone(OrderItemQueue $orderItemQueue): OrderItemQueue
+    public static function setPlaying(OrderItemQueue $orderItemQueue): OrderItemQueue 
+    {
+        $orderItemQueue->status = OrderItemQueueStatus::Playing->value;
+        $orderItemQueue->save();
+
+        CreateNewOrderMovimentationAction::handle($orderItemQueue->orderItem->order, OrderItemQueue::class, $orderItemQueue->id, 'update', 'Status da Fila do Item do Pedido alterado para "Jogando"');
+        
+        return $orderItemQueue;
+    }
+
+    public static function setDone(OrderItemQueue $orderItemQueue, bool $schedule = false): OrderItemQueue
     {
         $orderItemQueue->status = OrderItemQueueStatus::Done->value;
         $orderItemQueue->save();
 
-        CreateNewOrderMovimentationAction::handle($orderItemQueue->orderItem->order, OrderItemQueue::class, $orderItemQueue->id, 'update', 'Status da Fila do Item do Pedido alterado para "Finalizado"');
+        CreateNewOrderMovimentationAction::handle($orderItemQueue->orderItem->order, OrderItemQueue::class, $orderItemQueue->id, 'update', 'Status da Fila do Item do Pedido alterado para "Finalizado"', $schedule);
 
-        OrderItemService::setDelivered($orderItemQueue->orderItem);
+        OrderItemService::setDelivered($orderItemQueue->orderItem, $schedule);
 
         return $orderItemQueue;
     }

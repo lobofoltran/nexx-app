@@ -9,7 +9,7 @@ use App\Models\Order;
 
 class OrderService
 {
-    public static function setConcluded(Order $order): Order
+    public static function setConcluded(Order $order, bool $schedule = false): Order
     {
         $delivereds = 0;
         $canceleds = 0;
@@ -42,8 +42,8 @@ class OrderService
         $order->save();
 
         if (isset($status)) {
-            CreateNewCardMovimentationAction::handle($order->card, Order::class, $order->id, 'update', 'Status do pedido alterado para "' . $status . '"');
-            CreateNewOrderMovimentationAction::handle($order, Order::class, $order->id, 'update', 'Status do pedido alterado para "'. $status .'"');
+            CreateNewCardMovimentationAction::handle($order->card, Order::class, $order->id, 'update', 'Status do pedido alterado para "' . $status . '"', $schedule);
+            CreateNewOrderMovimentationAction::handle($order, Order::class, $order->id, 'update', 'Status do pedido alterado para "'. $status .'"', $schedule);
         }
 
         return $order;

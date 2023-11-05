@@ -1,6 +1,6 @@
 <div>
     <div class="px-2">
-        <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled">
+        <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled" autofocus>
             {{ __('Voltar') }}
         </x-button>
     </div>
@@ -32,7 +32,12 @@
             </x-button>
         </div>
     @else
-        <div class="bg-white text-gray-900 py-4 border rounded text-center my-5 text-lg font-medium dark:text-gray-100">Comanda encerrada</div>
+        <div class="p-2 grid grid-cols-1 gap-1 my-2 text-white">
+            <x-button wire:click="printCard" wire:loading.attr="disabled">
+                {{ __('Imprimir') }}
+            </x-button>
+        </div>
+        <div class="bg-white text-gray-900 py-4 border rounded text-center my-2 text-lg font-medium dark:text-gray-100">Comanda encerrada</div>
     @endif
         <div class="bg-white dark:bg-gray-800 pt-4 px-4 border rounded">
             <div class="text-center text-lg">Comanda</div>
@@ -115,7 +120,6 @@
                             <td class="text-center">{{ $item->product->name }}</td>
                             <td class="text-center">@money($item->value)</td>
                             <td class="text-center"><div class="p-1 rounded-md text-sm border text-black {{ OrderItemsStatus::from($item->status)->color() }}">{{ OrderItemsStatus::from($item->status)->label() }}</div></td>
-
                         </tr>
                         @endforeach
                     @endforeach

@@ -42,15 +42,21 @@ class WaiterCardView extends Component
 
     public function viewCardPhysical()
     {
-        if ($this->card->cardPhysical) {
-            $this->redirectRoute('waiter.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
+        } else {
+            return redirect()->route('cashier.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
         }
-    } 
+    }
 
     public function viewTable()
     {
         if ($this->card->table) {
-            $this->redirectRoute('waiter.table-view', ['table' => $this->card->table->id]);
+            if (request()->routeIs('waiter.*')) {
+                return redirect()->route('waiter.table-view', ['table' => $this->card->table->id]);
+            } else {
+                return redirect()->route('cashier.table-view', ['table' => $this->card->table->id]);
+            }
         }
     }
 
@@ -109,12 +115,20 @@ class WaiterCardView extends Component
 
     public function viewCard(Card $card)
     {
-        $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.card-view', ['card' => $card->id]);
+        } else {
+            return redirect()->route('cashier.card-view', ['card' => $card->id]);
+        }
     }
 
     public function printCard()
     {
-        return redirect()->route('waiter.card-view.print', ['card' => $this->card]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.card-view.print', ['card' => $this->card]);
+        } else {
+            return redirect()->route('cashier.card-view.print', ['card' => $this->card]);
+        }
     }
 
     public $confirmingGroupTables = false;
@@ -157,12 +171,20 @@ class WaiterCardView extends Component
 
     public function redirectNewOrder()
     {
-        return $this->redirectRoute('waiter.new-order', ['card' => $this->card->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.new-order', ['card' => $this->card->id]);
+        } else {
+            return redirect()->route('cashier.new-order', ['card' => $this->card->id]);
+        }
     }
 
     public function redirectPayment()
     {
-        return $this->redirectRoute('waiter.payment', ['card' => $this->card->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.payment', ['card' => $this->card->id]);
+        } else {
+            return redirect()->route('cashier.payment', ['card' => $this->card->id]);
+        }
     }
 
     public $cardsPhysical;

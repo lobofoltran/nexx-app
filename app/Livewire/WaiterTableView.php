@@ -45,7 +45,11 @@ class WaiterTableView extends Component
 
     public function viewTable(Table $table)
     {
-        $this->redirectRoute('waiter.table-view', ['table' => $table->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.table-view', ['table' => $table->id]);
+        } else {
+            return redirect()->route('cashier.table-view', ['table' => $table->id]);
+        }
     }
 
     public function removeGropment(GroupTable $groupTable)
@@ -90,7 +94,11 @@ class WaiterTableView extends Component
 
     public function viewCard(Card $card)
     {
-        $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
+        if (request()->routeIs('waiter.*')) {
+            return redirect()->route('waiter.card-view', ['card' => $card->id]);
+        } else {
+            return redirect()->route('cashier.card-view', ['card' => $card->id]);
+        }
     }
 
     public function mount()

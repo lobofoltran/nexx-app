@@ -79,7 +79,7 @@ class Card extends Model
 
     public function routeCostumer(): string
     {
-        return request()->schemeAndHttpHost() . "/client/virtual/{$this->uuid}";
+        return request()->schemeAndHttpHost() . "/costumer/virtual/{$this->uuid}";
     }
 
     public function getConsummation(): string
@@ -121,7 +121,6 @@ class Card extends Model
     {
         return CardService::getMissing($this, true);
     }
-
 
     public function getTime(): string
     {

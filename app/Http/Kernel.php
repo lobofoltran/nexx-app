@@ -64,5 +64,9 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'auth.costumer' => \App\Http\Middleware\AuthCostumer::class,
+        'costumer.virtual.card' => \App\Http\Middleware\CostumerVirtualCard::class,
+        'costumer.physical.card' => \App\Http\Middleware\CostumerPhysicalCard::class,
+        'costumer.table' => \App\Http\Middleware\CostumerTable::class,
     ];
 }

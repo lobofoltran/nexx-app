@@ -10,9 +10,9 @@ class CreateNewCardMovimentationAction
     private static string $user_id;
     private static string $card_id;
 
-    public static function handle(?Card $card = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null): CardMovimentation
+    public static function handle(?Card $card = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null, bool $schedule = false): CardMovimentation
     {
-        self::validate($card, $modelType, $modelId);
+        self::validate($card, $modelType, $modelId, $schedule);
 
         $cardMovimentation = new CardMovimentation;
         $cardMovimentation->atcm_card_id = self::$card_id;
@@ -23,17 +23,17 @@ class CreateNewCardMovimentationAction
         $cardMovimentation->details = $details;
         $cardMovimentation->save();
 
-        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details);
+        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details, $schedule);
 
         return $cardMovimentation;
     }
 
-    private static function validate(?Card $card, ?string $modelType, ?string $modelId): void
+    private static function validate(?Card $card, ?string $modelType, ?string $modelId, bool $schedule): void
     {
         if (auth()->user()) {
             self::$user_id = auth()->user()->id;
         } else {
-            if (env('APP_ENV') == 'testing') {
+            if (env('APP_ENV') == 'testing' || $schedule) {
                 self::$user_id = 1;
             } else {
                 throw new \Exception(__('Usuário não existe!'), 2);

@@ -1,7 +1,7 @@
 <div>
     @if ($card && $card->status !== CardStatus::Closed->value)
         <div class="px-2">
-            <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled">
+            <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled" autofocus>
                 {{ __('Voltar') }}
             </x-button>
         </div>
@@ -74,7 +74,7 @@
     @else
         @if ($card)
             <div class="px-2">
-                <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled">
+                <x-button class="mb-2" wire:click="returnPage" wire:loading.attr="disabled" autofocus>
                     {{ __('Voltar') }}
                 </x-button>
             </div>

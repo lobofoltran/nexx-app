@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Card;
+use App\Models\Enterprise;
 use Illuminate\Http\Request;
+use Rawilk\Printing\Receipts\ReceiptPrinter;
 
 class CardController extends Controller
 {
     public function printCard(Card $card, Request $request)
     {
-        $route = $request->schemeAndHttpHost() . "/clients/{$card->uuid}";
+        $enterprise = Enterprise::find($card->owner_id);
 
-        return view('print.card', compact('route'));
+        return view('print.card', compact('card', 'enterprise'));
     }
 
     public function printReceiptCard(Request $request)

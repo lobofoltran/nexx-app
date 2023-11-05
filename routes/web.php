@@ -84,20 +84,19 @@ Route::middleware([
      */
     Route::redirect('/attraction', '/attraction/entities')->name('attraction');
     Route::view('/attraction/entities', 'attraction.entities')->name('attraction.entities');
+    Route::view('/attraction/queues', 'attraction.queues')->name('attraction.queues');
 
     /**
      * ROTAS DO BAR
      */
     Route::redirect('/bar', '/bar/orders')->name('bar');
     Route::view('/bar/orders', 'bar.orders')->name('bar.orders');
-    Route::view('/bar/orders.tv', 'bar.orders.tv')->name('bar.orders.tv');
 
     /**
      * ROTAS DA COZINHA
      */
     Route::redirect('/kitchen', '/kitchen/orders')->name('kitchen');
     Route::view('/kitchen/orders', 'kitchen.orders')->name('kitchen.orders');
-    Route::view('/kitchen/orders/tv', 'kitchen.orders.tv')->name('kitchen.orders.tv');
 
     /**
      * ROTAS DO CAIXA
@@ -106,13 +105,18 @@ Route::middleware([
     Route::view('/cashier/cards', 'cashier.cards')->name('cashier.cards');
     Route::view('/cashier/cards/{card}', 'cashier.card-view')->name('cashier.card-view');
     Route::get('/cashier/cards/{card}/receipt', [CardController::class, 'printReceiptCard'])->name('cashier.card-view.print');
+    Route::view('/cashier/cards/{card}/new-order', 'cashier.new-order')->name('cashier.new-order');
     Route::view('/cashier/cards/{card}/payment', 'cashier.payment')->name('cashier.payment');
     Route::view('/cashier/cards-physical', 'cashier.cards-physical')->name('cashier.cards-physical');
+    Route::view('/cashier/cards-physical/{cardPhysical}', 'cashier.cards-physical-view')->name('cashier.cards-physical-view');
     Route::view('/cashier/tables', 'cashier.table')->name('cashier.table');
-
-    /**
-     * ROTAS DOS CLIENTES
-     */
-    Route::view('/costumer/{card}', 'costumer.card')->name('costumer.card');
-    Route::view('/costumer/{card}/new-order', 'costumer.new-order')->name('costumer.new-order');
+    Route::view('/cashier/tables/{table}', 'cashier.table-view')->name('cashier.table-view');
 });
+
+/**
+ * ROTAS DOS CLIENTES
+ */
+Route::view('/costumer/virtual/{card}', 'costumer.card.virtual')->name('costumer.card.virtual')->middleware('costumer.virtual.card');
+Route::view('/costumer/physical/{cardPhysical}', 'costumer.card.physical')->name('costumer.card.physical')->middleware('costumer.physical.card');
+Route::view('/costumer/table/{table}', 'costumer.table')->name('costumer.table')->middleware('costumer.table');
+Route::view('/costumer/new-order', 'costumer.new-order')->name('costumer.new-order')->middleware('auth.costumer');

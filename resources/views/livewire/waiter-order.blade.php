@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5000ms>
     <div class="my-2">
         <div class="relative rounded-lg shadow-sm w-full">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-auto">
@@ -17,9 +17,9 @@
         </div>
     </div>
     <hr>
-    <div class="grid grid-cols-6 gap-1 my-2">
+    <div class="grid grid-cols-6 md:gap-1 my-2">
         @foreach (OrderItemsStatus::cases() as $enumStatus)
-            <div class="flex flex-col relative justify-between p-2 rounded-lg text-center text-sm whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
+            <div class="flex flex-col relative justify-between p-1 md:p-2 rounded-lg text-center text-xs overflow-hidden whitespace-nowrap {{ $enumStatus->color() }} shadow-lg w-full">
                 {{ $enumStatus->label() }}
             </div>
         @endforeach
@@ -27,7 +27,7 @@
     <hr>
     <div class="grid grid-cols-3 gap-4 mt-2 text-white">
         @foreach ($orderItems as $orderItem)
-            <div class="flex flex-col relative justify-between p-4 rounded-lg {{ OrderItemsStatus::from($orderItem->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="confirmingMark({{ $orderItem }})">
+            <div tabindex="0" wire:keydown.enter="confirmingMark({{ $orderItem }})" class="focus:ring-4 ring-offset-2 ring-offset-slate-50 flex flex-col relative justify-between p-4 rounded-lg {{ OrderItemsStatus::from($orderItem->status)->color() }} shadow-lg w-full cursor-pointer" wire:click="confirmingMark({{ $orderItem }})">
                 <div class="text-center flex-none">#{{ $orderItem->id }}</div>
                 <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $orderItem->order->card->id }} {{ $orderItem->order->card->identity ? '(' . $orderItem->order->card->identity . ')' : '' }}</div>
                 <div class="text-center flex-none"><i class="fas fa-id-badge"></i> {{ $orderItem->order->card->cardPhysical ? $orderItem->order->card->cardPhysical->id : 'N/D' }}</div>

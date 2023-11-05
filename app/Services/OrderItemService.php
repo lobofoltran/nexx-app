@@ -51,7 +51,7 @@ class OrderItemService
         return $orderItem;
     }
 
-    public static function setDelivered(OrderItem $orderItem): OrderItem
+    public static function setDelivered(OrderItem $orderItem, bool $schedule = false): OrderItem
     {
         if (!$orderItem->product->productCategory->is_attraction && $orderItem->status !== OrderItemsStatus::Concluded->value) {
             throw new \Exception(__('Status do item deve estar concluído!'), 1);
@@ -60,9 +60,9 @@ class OrderItemService
         $orderItem->status = OrderItemsStatus::Delivered->value;
         $orderItem->save();
 
-        CreateNewOrderMovimentationAction::handle($orderItem->order, OrderItem::class, $orderItem->id, 'update', 'Status do Item do Pedido alterado para "Entregue"');
+        CreateNewOrderMovimentationAction::handle($orderItem->order, OrderItem::class, $orderItem->id, 'update', 'Status do Item do Pedido alterado para "Entregue"', $schedule);
 
-        OrderService::setConcluded($orderItem->order);
+        OrderService::setConcluded($orderItem->order, $schedule);
 
         return $orderItem;
     }

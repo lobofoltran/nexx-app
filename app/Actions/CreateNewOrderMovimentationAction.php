@@ -10,9 +10,9 @@ class CreateNewOrderMovimentationAction
     private static string $user_id;
     private static string $order_id;
 
-    public static function handle(?Order $order = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null): OrderMovimentation
+    public static function handle(?Order $order = null, ?string $modelType = null, ?string $modelId = null, ?string $action = null, ?string $details = null, bool $schedule = false): OrderMovimentation
     {
-        self::validate($order, $modelType, $modelId);
+        self::validate($order, $modelType, $modelId, $schedule);
 
         $orderMovimentation = new OrderMovimentation;
         $orderMovimentation->atcm_Order_id = self::$order_id;
@@ -23,17 +23,17 @@ class CreateNewOrderMovimentationAction
         $orderMovimentation->details = $details;
         $orderMovimentation->save();
 
-        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details);
+        CreateNewAuditLogAction::handle($modelType, $modelId, $action, $details, $schedule);
 
         return $orderMovimentation;
     }
 
-    private static function validate(?Order $order, ?string $modelType, ?string $modelId): void
+    private static function validate(?Order $order, ?string $modelType, ?string $modelId, bool $schedule): void
     {
         if (auth()->user()) {
             self::$user_id = auth()->user()->id;
         } else {
-            if (env('APP_ENV') == 'testing') {
+            if (env('APP_ENV') == 'testing' || $schedule) {
                 self::$user_id = 1;
             } else {
                 throw new \Exception(__('Usuário não existe!'), 2);
