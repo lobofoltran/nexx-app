@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\RolesEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasTenants;
@@ -81,7 +82,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->hasRole(RolesEnum::ADMIN->value);
     }
 
     public function getTenants(Panel $panel): Collection

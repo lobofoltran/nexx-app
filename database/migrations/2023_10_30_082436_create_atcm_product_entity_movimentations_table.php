@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('action', 255);
             $table->text('details')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('owner_id')->nullable();
 
             $table->foreign('atcm_product_entity_id', 'fk_atcm_product_entities_id')->references('id')->on('atcm_product_entities');
         });

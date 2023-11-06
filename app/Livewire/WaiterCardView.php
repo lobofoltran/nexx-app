@@ -42,7 +42,7 @@ class WaiterCardView extends Component
 
     public function viewCardPhysical()
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
         } else {
             return redirect()->route('cashier.cards-physical-view', ['cardPhysical' => $this->card->cardPhysical->id]);
@@ -52,7 +52,7 @@ class WaiterCardView extends Component
     public function viewTable()
     {
         if ($this->card->table) {
-            if (request()->routeIs('waiter.*')) {
+            if ($this->isWaiter) {
                 return redirect()->route('waiter.table-view', ['table' => $this->card->table->id]);
             } else {
                 return redirect()->route('cashier.table-view', ['table' => $this->card->table->id]);
@@ -115,7 +115,7 @@ class WaiterCardView extends Component
 
     public function viewCard(Card $card)
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.card-view', ['card' => $card->id]);
         } else {
             return redirect()->route('cashier.card-view', ['card' => $card->id]);
@@ -124,7 +124,7 @@ class WaiterCardView extends Component
 
     public function printCard()
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.card-view.print', ['card' => $this->card]);
         } else {
             return redirect()->route('cashier.card-view.print', ['card' => $this->card]);
@@ -171,7 +171,7 @@ class WaiterCardView extends Component
 
     public function redirectNewOrder()
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.new-order', ['card' => $this->card->id]);
         } else {
             return redirect()->route('cashier.new-order', ['card' => $this->card->id]);
@@ -180,7 +180,7 @@ class WaiterCardView extends Component
 
     public function redirectPayment()
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.payment', ['card' => $this->card->id]);
         } else {
             return redirect()->route('cashier.payment', ['card' => $this->card->id]);
@@ -188,9 +188,11 @@ class WaiterCardView extends Component
     }
 
     public $cardsPhysical;
+    public $isWaiter = true;
 
     public function mount()
     {
+        $this->isWaiter = request()->routeIs('waiter.*');
         $this->route = url()->previous();
         $this->card = Card::find(request('card'));
         $this->identity = $this->card->identity;

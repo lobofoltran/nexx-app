@@ -189,6 +189,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Carbon' => Carbon::class,
+        'RolesEnum' => App\Enums\RolesEnum::class,
         'OrderItemQueueStatus' => App\Enums\OrderItemQueueStatus::class,
         'ProductEntityStatus' => App\Enums\ProductEntityStatus::class,
         'TableStatus' => App\Enums\TableStatus::class,

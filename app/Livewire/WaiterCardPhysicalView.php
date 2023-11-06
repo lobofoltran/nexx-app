@@ -36,7 +36,7 @@ class WaiterCardPhysicalView extends Component
 
     public function viewCard(Card $card)
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             return redirect()->route('waiter.card-view', ['card' => $card->id]);
         } else {
             return redirect()->route('cashier.card-view', ['card' => $card->id]);
@@ -48,8 +48,11 @@ class WaiterCardPhysicalView extends Component
         redirect($this->route);
     }
 
+    public $isWaiter = true;
+
     public function mount()
     {
+        $this->isWaiter = request()->routeIs('waiter.*');
         $this->route = url()->previous();
         $this->cardPhysical = CardPhysical::find(request('cardPhysical'));
         $this->tables = Table::whereIn('status', [TableStatus::Available->value, TableStatus::InUse->value, TableStatus::Grouped->value, TableStatus::WaitingCleaning->value])->get();

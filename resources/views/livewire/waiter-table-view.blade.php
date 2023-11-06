@@ -127,7 +127,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($table->movimentations->reverse()->take(20) as $movimentation)
+                @foreach ($table->movimentations->reverse() as $movimentation)
                     <tr class="text-black text-sm border-b">
                         <td class="text-center">{{ $movimentation->action }}</td>
                         <td>{{ $movimentation->details }}</td>

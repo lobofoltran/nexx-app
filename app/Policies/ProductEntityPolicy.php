@@ -13,7 +13,7 @@ class ProductEntityPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class ProductEntityPolicy
      */
     public function view(User $user, ProductEntity $productEntity): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductEntityPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductEntityPolicy
      */
     public function update(User $user, ProductEntity $productEntity): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProductEntityPolicy
      */
     public function delete(User $user, ProductEntity $productEntity): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductEntityPolicy
      */
     public function restore(User $user, ProductEntity $productEntity): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +61,6 @@ class ProductEntityPolicy
      */
     public function forceDelete(User $user, ProductEntity $productEntity): bool
     {
-        //
+        return false;
     }
 }

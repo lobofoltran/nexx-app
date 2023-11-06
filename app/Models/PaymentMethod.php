@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,11 @@ class PaymentMethod extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class, 'atcm_payment_method_id');
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'owner_id');
     }
 
     /**

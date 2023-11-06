@@ -41,15 +41,18 @@ class WaiterCard extends Component
 
     public function viewCard(Card $card): void
     {
-        if (request()->routeIs('waiter.*')) {
+        if ($this->isWaiter) {
             $this->redirectRoute('waiter.card-view', ['card' => $card->id]);
         } else {
             $this->redirectRoute('cashier.card-view', ['card' => $card->id]);
         }
     }
 
+    public $isWaiter = true;
+
     public function render()
     {
+        $this->isWaiter = request()->routeIs('waiter.*');
         $this->tables = Table::whereIn('status', [TableStatus::Available->value, TableStatus::InUse->value, TableStatus::Grouped->value, TableStatus::WaitingCleaning->value])->get();
         $this->cardsPhysical = CardPhysical::where('status', CardPhysicalStatus::Available->value)->get();
 

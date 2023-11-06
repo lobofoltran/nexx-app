@@ -2,13 +2,17 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\AdminUsers;
 use App\Filament\Pages\Tenancy\EditEnterpriseProfile;
 use App\Filament\Pages\Tenancy\RegisterEnterprise;
+use App\Filament\Resources\UserResource;
 use App\Models\Enterprise;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -30,23 +34,23 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            // ->login()
-            ->spa()
             ->tenant(Enterprise::class, ownershipRelationship: 'owner')
-            ->tenantRoutePrefix(null)
-            ->tenantRegistration(RegisterEnterprise::class)
             ->tenantProfile(EditEnterpriseProfile::class)
             ->tenantMiddleware([
                 
-            ], isPersistent: true)    
+            ], isPersistent: true)  
+            ->brandName('Nexx')
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('3rem')
+            ->navigationItems([
+                NavigationItem::make('Sistema')
+                    ->url('/dashboard')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->sort(-3),
+            ])      
             ->tenantMenuItems([
                 MenuItem::make()
-                    ->label('Filiais')
-                    ->icon('heroicon-m-users'),
-                MenuItem::make()
-                    ->label('Departamentos')
-                    ->icon('heroicon-m-users'),
-                MenuItem::make()
+                    ->url(UserResource::getSlug())
                     ->label('Usuários')
                     ->icon('heroicon-m-users'),
             ])    
@@ -62,7 +66,6 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

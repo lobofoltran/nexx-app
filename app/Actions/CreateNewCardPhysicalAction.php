@@ -7,9 +7,10 @@ use App\Models\CardPhysical;
 
 class CreateNewCardPhysicalAction
 {
-    public static function handle(): CardPhysical
+    public static function handle(?string $code = null): CardPhysical
     {
         $cardPhysical = new CardPhysical;
+        $cardPhysical->code = $code;
         $cardPhysical->status = CardPhysicalStatus::Available->value;
         $cardPhysical->save();
 

@@ -53,6 +53,11 @@ class Product extends Model
         return $this->hasMany(ProductEntity::class, 'atcm_product_id');
     }
     
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'owner_id');
+    }
+
     /**
      * The "booted" method of the model.
      */

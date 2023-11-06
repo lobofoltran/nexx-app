@@ -18,7 +18,7 @@ class CostumerPhysicalCard
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $cardPhysical = CardPhysical::where('uuid', $request->cardPhysical)->whereIn('status', [CardPhysicalStatus::Available->value])->first();
+        $cardPhysical = CardPhysical::where('uuid', $request->cardPhysical)->whereIn('status', [CardPhysicalStatus::InUse->value])->first();
 
         if ($cardPhysical) {
             Session::put('costumer', ['type' => 'card.physical', 'data' => $cardPhysical]);

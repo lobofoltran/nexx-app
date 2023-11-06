@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'costumer.virtual.card' => \App\Http\Middleware\CostumerVirtualCard::class,
         'costumer.physical.card' => \App\Http\Middleware\CostumerPhysicalCard::class,
         'costumer.table' => \App\Http\Middleware\CostumerTable::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
     ];
 }

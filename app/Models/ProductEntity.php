@@ -47,6 +47,11 @@ class ProductEntity extends Model
         return $this->hasMany(ProductEntityMovimentation::class, 'atcm_product_entity_id');
     }
 
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'owner_id');
+    }
+
     /**
      * The "booted" method of the model.
      */

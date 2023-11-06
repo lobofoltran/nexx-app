@@ -20,7 +20,7 @@ class CostumerTable
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $table = Table::where('uuid', $request->table)->whereIn('status', [TableStatus::Available->value])->first();
+        $table = Table::where('uuid', $request->table)->whereIn('status', [TableStatus::InUse->value, TableStatus::Grouped->value])->first();
 
         if ($table) {
             Session::put('costumer', ['type' => 'table', 'data' => $table]);

@@ -13,7 +13,7 @@ class EnterprisePolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class EnterprisePolicy
      */
     public function view(User $user, Enterprise $enterprise): bool
     {
-        //
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class EnterprisePolicy
      */
     public function delete(User $user, Enterprise $enterprise): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -53,7 +53,7 @@ class EnterprisePolicy
      */
     public function restore(User $user, Enterprise $enterprise): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -61,6 +61,6 @@ class EnterprisePolicy
      */
     public function forceDelete(User $user, Enterprise $enterprise): bool
     {
-        //
+        return false;
     }
 }

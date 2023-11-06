@@ -56,4 +56,17 @@ enum TableStatus: string
         };
     }
 
+    public function badge(): string
+    {
+        return match($this) {
+            static::Available       => 'success',
+            static::InUse           => 'primary',
+            // static::Reserved        => '',
+            static::Grouped         => 'info',
+            static::WaitingCleaning => 'warning',
+            static::Maintenance     => 'error',
+            static::Disabled        => 'error',
+        };
+    }
+
 }

@@ -7,6 +7,7 @@ use App\Models\Scopes\OwnerScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -21,6 +22,15 @@ class CardPhysical extends Model
      * @var string
      */
     protected $table = 'atcm_card_physicals';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'code',
+    ];
 
     /**
      * Get the columns that should receive a unique identifier.
@@ -45,6 +55,11 @@ class CardPhysical extends Model
     public function routeCostumer(): string
     {
         return request()->schemeAndHttpHost() . "/costumer/physical/{$this->uuid}";
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'owner_id');
     }
 
     /**

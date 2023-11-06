@@ -43,6 +43,7 @@
             <div class="text-center text-lg">Comanda</div>
             <hr>
             <div class="my-4 visible-print text-center">
+                {{ $card->routeCostumer() }}
                 {!! QrCode::generate($card->routeCostumer()) !!}
             </div>
             <div class="my-4"><b>• Comanda:</b> {{ $card->id }}</div>
@@ -165,7 +166,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($card->movimentations->reverse()->take(20) as $movimentation)
+                @foreach ($card->movimentations->reverse() as $movimentation)
                     <tr class="text-black text-sm">
                         <td>{{ $movimentation->details }}</td>
                         <td>{{ $movimentation->model_id }}</td>

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Enums\RolesEnum;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemQueue;
@@ -53,5 +54,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(RolesEnum::ADMIN->value) ? true : null;
+        });
     }
 }

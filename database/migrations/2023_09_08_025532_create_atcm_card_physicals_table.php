@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('atcm_card_physicals', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
+            $table->string('code', 10)->nullable();
             $table->enum('status', CardPhysicalStatus::options());
             $table->timestamps();
             $table->softDeletes();

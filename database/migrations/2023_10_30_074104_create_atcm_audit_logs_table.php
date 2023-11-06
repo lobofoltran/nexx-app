@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('action', 255);
             $table->text('details')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('owner_id')->nullable();
         });
     }
 

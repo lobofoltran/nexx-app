@@ -7,6 +7,7 @@ use App\Services\TableService;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -68,6 +69,11 @@ class Table extends Model
     public function getTime(): string
     {
         return TableService::getTime($this);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Enterprise::class, 'owner_id');
     }
 
     /**

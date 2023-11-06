@@ -2,7 +2,9 @@
 
 namespace App\Filament\Pages\Tenancy;
  
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Tenancy\EditTenantProfile;
 use Illuminate\Database\Eloquent\Model;
@@ -18,8 +20,14 @@ class EditEnterpriseProfile extends EditTenantProfile
     {
         return $form
             ->schema([
-                TextInput::make('name'),
-                // ...
-            ]);
+                Section::make('Configurações da Empresa')
+                ->schema([
+                    TextInput::make('name')
+                        ->label('Nome')
+                        ->maxLength(30),
+                    Toggle::make('teste')
+                        ->label('Permite apagar comandas')
+                ])
+        ]);
     }
 }

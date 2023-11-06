@@ -39,4 +39,13 @@ enum CardPhysicalStatus: string
         };
     }
 
+    public function badge(): string
+    {
+        return match($this) {
+            static::Available => 'success',
+            static::InUse     => 'primary',
+            static::Disabled  => 'warning',
+        };
+    }
+
 }

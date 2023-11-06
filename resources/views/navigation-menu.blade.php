@@ -12,29 +12,41 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
-                        {{ __('Garçom') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::WAITER->value))
+                        <x-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
+                            {{ __('Garçom') }}
+                        </x-nav-link>
+                    @endif
 
-                    <x-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
-                        {{ __('Atrações') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::ATTRACTION->value))
+                        <x-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
+                            {{ __('Atrações') }}
+                        </x-nav-link>
+                    @endif
 
-                    <x-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
-                        {{ __('Bar') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::BAR->value))
+                        <x-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
+                            {{ __('Bar') }}
+                        </x-nav-link>
+                    @endif
 
-                    <x-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
-                        {{ __('Cozinha') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::KITCHEN->value))
+                        <x-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
+                            {{ __('Cozinha') }}
+                        </x-nav-link>
+                    @endif
 
-                    <x-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
-                        {{ __('Caixa') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::CASHIER->value))
+                        <x-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
+                            {{ __('Caixa') }}
+                        </x-nav-link>
+                    @endif
 
-                    <x-nav-link href="{{ url('/admin') }}">
-                        {{ __('Cadastros & Relatórios') }}
-                    </x-nav-link>
+                    @if (auth()->user()->hasRole(RolesEnum::ADMIN->value))
+                        <x-nav-link href="{{ url('/admin') }}">
+                            {{ __('Cadastros & Relatórios') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -115,12 +127,12 @@
                         <x-slot name="content">
                             <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                                {{ auth()->user()->email }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            {{-- <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
-                            </x-dropdown-link>
+                            </x-dropdown-link> --}}
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -159,29 +171,42 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
-                {{ __('Garçom') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::WAITER->value))
+                <x-responsive-nav-link href="{{ route('waiter') }}" :active="request()->routeIs('waiter.*')">
+                    {{ __('Garçom') }}
+                </x-responsive-nav-link>
+            @endif
 
-            <x-responsive-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
-                {{ __('Atrações') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::ATTRACTION->value))
+                <x-responsive-nav-link href="{{ route('attraction') }}" :active="request()->routeIs('attraction.*')">
+                    {{ __('Atrações') }}
+                </x-responsive-nav-link>
+            @endif
 
-            <x-responsive-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
-                {{ __('Bar') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::BAR->value))
+                <x-responsive-nav-link href="{{ route('bar') }}" :active="request()->routeIs('bar.*')">
+                    {{ __('Bar') }}
+                </x-responsive-nav-link>
+            @endif
 
-            <x-responsive-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
-                {{ __('Cozinha') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::KITCHEN->value))
+                <x-responsive-nav-link href="{{ route('kitchen') }}" :active="request()->routeIs('kitchen.*')">
+                    {{ __('Cozinha') }}
+                </x-responsive-nav-link>
+            @endif
 
-            <x-responsive-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
-                {{ __('Caixa') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::CASHIER->value))
+                <x-responsive-nav-link href="{{ route('cashier') }}" :active="request()->routeIs('cashier.*')">
+                    {{ __('Caixa') }}
+                </x-responsive-nav-link>
+            @endif
 
-            <x-responsive-nav-link href="{{ url('/admin') }}">
-                {{ __('Cadastros & Relatórios') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole(RolesEnum::ADMIN->value))
+                <x-responsive-nav-link href="{{ url('/admin') }}">
+                    {{ __('Cadastros & Relatórios') }}
+                </x-responsive-nav-link>
+            @endif
+
         </div>
 
         <!-- Responsive Settings Options -->

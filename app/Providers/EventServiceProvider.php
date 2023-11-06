@@ -2,13 +2,16 @@
 
 namespace App\Providers;
 
+use App\Models\AuditLog;
 use App\Models\Card;
+use App\Models\CardMovimentation;
 use App\Models\CardPhysical;
 use App\Models\GroupCard;
 use App\Models\GroupTable;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderItemQueue;
+use App\Models\OrderMovimentation;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\Product;
@@ -16,6 +19,7 @@ use App\Models\ProductCategory;
 use App\Models\ProductEntity;
 use App\Models\QueuesEntities;
 use App\Models\Table;
+use App\Models\TableMovimentation;
 use App\Models\WaitingList;
 use App\Observers\CardObserver;
 use App\Observers\OrderItemObserver;
@@ -53,21 +57,25 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $observers = [
-        Card::class            => [OwnerObserver::class, CardObserver::class],
-        Table::class           => [OwnerObserver::class, TableObserver::class],
-        ProductCategory::class => [OwnerObserver::class, ProductCategoryObserver::class],
-        Product::class         => [OwnerObserver::class, ProductObserver::class],
-        ProductEntity::class   => [OwnerObserver::class, ProductEntityObserver::class],
-        Order::class           => [OwnerObserver::class, OrderObserver::class],
-        OrderItem::class       => [OwnerObserver::class, OrderItemObserver::class],
-        OrderItemQueue::class  => [OwnerObserver::class, OrderItemQueueObserver::class],
-        PaymentMethod::class   => [OwnerObserver::class, PaymentMethodObserver::class],
-        Payment::class         => [OwnerObserver::class, PaymentObserver::class],
-        WaitingList::class     => [OwnerObserver::class, WaitingListObserver::class],
-        CardPhysical::class    => [OwnerObserver::class],
-        GroupCard::class       => [OwnerObserver::class],
-        GroupTable::class      => [OwnerObserver::class],
-        QueuesEntities::class  => [OwnerObserver::class],
+        Card::class               => [OwnerObserver::class, CardObserver::class],
+        Table::class              => [OwnerObserver::class, TableObserver::class],
+        ProductCategory::class    => [OwnerObserver::class, ProductCategoryObserver::class],
+        Product::class            => [OwnerObserver::class, ProductObserver::class],
+        ProductEntity::class      => [OwnerObserver::class, ProductEntityObserver::class],
+        Order::class              => [OwnerObserver::class, OrderObserver::class],
+        OrderItem::class          => [OwnerObserver::class, OrderItemObserver::class],
+        OrderItemQueue::class     => [OwnerObserver::class, OrderItemQueueObserver::class],
+        PaymentMethod::class      => [OwnerObserver::class, PaymentMethodObserver::class],
+        Payment::class            => [OwnerObserver::class, PaymentObserver::class],
+        WaitingList::class        => [OwnerObserver::class, WaitingListObserver::class],
+        CardPhysical::class       => [OwnerObserver::class],
+        GroupCard::class          => [OwnerObserver::class],
+        GroupTable::class         => [OwnerObserver::class],
+        QueuesEntities::class     => [OwnerObserver::class],
+        AuditLog::class           => [OwnerObserver::class],
+        CardMovimentation::class  => [OwnerObserver::class],
+        OrderMovimentation::class => [OwnerObserver::class],
+        TableMovimentation::class => [OwnerObserver::class],
     ];
 
     /**

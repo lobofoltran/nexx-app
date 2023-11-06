@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('model_type', 255);
             $table->unsignedBigInteger('model_id')->nullable();
             $table->string('action', 255);
-            $table->text('details')->nullable();
+            $table->text('details')->nullable();            
             $table->timestamps();
+            $table->unsignedBigInteger('owner_id')->nullable();
         });
     }
 
