@@ -30,20 +30,13 @@
               </div>
               <div class="flex w-full items-center justify-between px-4">
                 <div>
-                  <button
+                  <a
                     id="navbarToggler"
-                    class="absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                    href="{{ route('login') }}"
+                    class="text-white absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
                   >
-                    <span
-                      class="relative my-[6px] block h-[2px] w-[30px] bg-white"
-                    ></span>
-                    <span
-                      class="relative my-[6px] block h-[2px] w-[30px] bg-white"
-                    ></span>
-                    <span
-                      class="relative my-[6px] block h-[2px] w-[30px] bg-white"
-                    ></span>
-                  </button>
+                  Entrar
+                  </a>
                   <nav
                     id="navbarCollapse"
                     class="absolute right-4 top-full hidden w-full max-w-[250px] rounded-lg bg-white py-5 shadow-lg lg:static lg:block lg:w-full lg:max-w-full lg:bg-transparent lg:py-0 lg:px-4 lg:shadow-none xl:px-6"
