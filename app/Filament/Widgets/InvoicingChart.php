@@ -17,10 +17,7 @@ class InvoicingChart extends ChartWidget
         'md' => 2,
         'xl' => 2,
     ];
-    
     protected static ?string $maxHeight = '300px';
-
-
     public function getDescription(): ?string
     {
         return 'Evolução de vendas durante o período do mês selecionado.';
