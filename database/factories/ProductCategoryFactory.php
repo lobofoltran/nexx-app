@@ -17,7 +17,9 @@ class ProductCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'description' => $this->faker->name(),
+            'is_attraction' => false,
+            'owner_id' => '1',
         ];
     }
 }

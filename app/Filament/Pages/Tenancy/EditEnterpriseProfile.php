@@ -25,8 +25,8 @@ class EditEnterpriseProfile extends EditTenantProfile
                     TextInput::make('name')
                         ->label('Nome')
                         ->maxLength(30),
-                    Toggle::make('teste')
-                        ->label('Permite apagar comandas')
+                    // Toggle::make('teste')
+                    //     ->label('Permite apagar comandas')
                 ])
         ]);
     }

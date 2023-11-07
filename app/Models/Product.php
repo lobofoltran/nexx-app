@@ -35,7 +35,8 @@ class Product extends Model
         'show_to_kitchen',
         'show_to_cashier',
         'image_url',
-        'value'
+        'value',
+        'cost'
     ];
 
     public function productCategory(): BelongsTo

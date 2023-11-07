@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\OrderStatus;
+use App\Models\Card;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'atcm_card_id' => Card::factory(),
+            'status' => OrderStatus::Preparing->value,
+            'owner_id' => '1',
         ];
     }
 }

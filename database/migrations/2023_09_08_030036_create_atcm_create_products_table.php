@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('description', 100)->nullable();
             $table->string('value', 10);
+            $table->string('cost', 10);
             $table->string('image_url', 256)->nullable();
             $table->string('time')->default('0');
             $table->boolean('show_to_bar')->default(false);

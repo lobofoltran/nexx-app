@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CardStatus;
 use App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,8 @@ class CardFactory extends Factory
         return [
             'atcm_table_id' => Table::factory(),
             'identity' => null,
-            'closed' => false,
+            'status' => CardStatus::Active->value,
+            'owner_id' => '1',
         ];
     }
 }

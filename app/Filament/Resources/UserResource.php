@@ -11,6 +11,7 @@ use App\Filament\Resources\UserResource\RelationManagers\RolesRelationManager;
 use App\Models\Enterprise;
 use App\Models\EnterpriseUser;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -19,6 +20,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -40,19 +42,25 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Informações da Mesa')
+                Section::make('Informações do Usuário')
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label('Nome')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(60),
                         Forms\Components\TextInput::make('email')
+                            ->label('E-mail')
                             ->email()
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('password')
+                            ->label('Senha')
+                            ->live()
                             ->password()
-                            ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->dehydrated(fn (?string $state): bool => filled($state))
+                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                            ->required(fn (string $operation): bool => $operation === 'create')
                     ])
             ]);
     }
@@ -87,9 +95,15 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    \pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction::make()->exports([
+                        \pxlrbt\FilamentExcel\Exports\ExcelExport::make()
+                    ]),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->headerActions([
+                \pxlrbt\FilamentExcel\Actions\Tables\ExportAction::make()
+            ], \Filament\Tables\Actions\HeaderActionsPosition::Bottom);
     }
     
     public static function getRelations(): array

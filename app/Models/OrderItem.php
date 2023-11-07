@@ -31,7 +31,8 @@ class OrderItem extends Model
         'atcm_order_id',
         'atcm_product_id',
         'observations',
-        'value'
+        'value',
+        'cost',
     ];
 
     public function order(): BelongsTo

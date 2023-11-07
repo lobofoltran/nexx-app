@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('atcm_order_items', function (Blueprint $table) {
             $table->id();
             $table->string('value', 10);
+            $table->string('cost', 10);
             $table->string('observations', 512)->nullable();
             $table->enum('status', OrderItemsStatus::options());
             $table->timestamps();

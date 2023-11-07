@@ -12,6 +12,7 @@ class CreateNewOrderItemAction
     private static string $order_id;
     private static string $product_id;
     private static string $value;
+    private static string $cost;
 
     public static function handle(?Order $order, ?Product $product, ?string $observations = null): OrderItem
     {
@@ -22,6 +23,7 @@ class CreateNewOrderItemAction
         $orderItem->atcm_product_id = self::$product_id;
         $orderItem->observations = trim($observations);
         $orderItem->value = self::$value;
+        $orderItem->cost = self::$cost;
         $orderItem->status = OrderItemsStatus::Assessing->value;
         $orderItem->save();
 
@@ -52,5 +54,6 @@ class CreateNewOrderItemAction
 
         self::$product_id = $product->id;
         self::$value = $product->value;
+        self::$cost = $product->cost;
     }
 }

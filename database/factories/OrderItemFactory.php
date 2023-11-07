@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrderItem>
@@ -17,7 +20,13 @@ class OrderItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'atcm_order_id' => Order::factory(),
+            'atcm_product_id' => Product::factory(),
+            'observations' => null,
+            'value' => rand(0, 200),
+            'cost' => rand(0, 150),
+            'owner_id' => '1',
+            'created_at' => now(),
         ];
     }
 }

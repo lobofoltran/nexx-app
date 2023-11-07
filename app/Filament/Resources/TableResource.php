@@ -8,10 +8,12 @@ use App\Filament\Resources\TableResource\RelationManagers;
 use App\Models\Product;
 use App\Models\Table as ModelTable;
 use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -87,15 +89,19 @@ class TableResource extends Resource
 
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
+            ->headerActions([
+                \pxlrbt\FilamentExcel\Actions\Tables\ExportAction::make()
+            ], \Filament\Tables\Actions\HeaderActionsPosition::Bottom)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction::make()->exports([
+                        \pxlrbt\FilamentExcel\Exports\ExcelExport::make()
+                    ]),
                 ]),
             ]);
     }

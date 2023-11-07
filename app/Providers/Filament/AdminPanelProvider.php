@@ -38,10 +38,10 @@ class AdminPanelProvider extends PanelProvider
             ->tenantProfile(EditEnterpriseProfile::class)
             ->tenantMiddleware([
                 
-            ], isPersistent: true)  
-            ->brandName('Nexx')
+            ], isPersistent: true)
+            ->brandName('Nexx Soluctions')
             ->brandLogo(asset('images/logo.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('2rem')
             ->navigationItems([
                 NavigationItem::make('Sistema')
                     ->url('/dashboard')
@@ -60,9 +60,9 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
+            // ->pages([
+            //     Pages\Dashboard::class,
+            // ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,

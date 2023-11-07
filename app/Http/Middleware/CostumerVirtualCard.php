@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\CreateNewLogsQrCodeAction;
 use App\Enums\CardStatus;
 use App\Models\Card;
 use Closure;
@@ -22,6 +23,7 @@ class CostumerVirtualCard
 
         if ($card) {
             Session::put('costumer', ['type' => 'card.virtual', 'data' => $card]);
+            CreateNewLogsQrCodeAction::handle($card::class, $card->id, $request->ip());
 
             return $next($request);
         } else {

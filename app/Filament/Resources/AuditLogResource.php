@@ -23,6 +23,11 @@ class AuditLogResource extends Resource
         return static::getModel()::count();
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -30,7 +35,8 @@ class AuditLogResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Usuário')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('action')
                     ->badge()
                     ->label('Ação')
@@ -49,7 +55,18 @@ class AuditLogResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]);
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    //     Tables\Actions\DeleteBulkAction::make(),
+                    \pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction::make()->exports([
+                        \pxlrbt\FilamentExcel\Exports\ExcelExport::make()
+                    ]),
+                ]),
+            ])
+            ->headerActions([
+                \pxlrbt\FilamentExcel\Actions\Tables\ExportAction::make()
+            ], \Filament\Tables\Actions\HeaderActionsPosition::Bottom);
     }
     
     public static function getRelations(): array

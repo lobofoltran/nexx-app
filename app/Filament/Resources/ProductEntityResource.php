@@ -88,8 +88,14 @@ class ProductEntityResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    \pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction::make()->exports([
+                        \pxlrbt\FilamentExcel\Exports\ExcelExport::make()
+                    ]),
                 ]),
-            ]);
+            ])
+            ->headerActions([
+                \pxlrbt\FilamentExcel\Actions\Tables\ExportAction::make()
+            ], \Filament\Tables\Actions\HeaderActionsPosition::Bottom);
     }
     
     public static function getRelations(): array

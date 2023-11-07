@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('atcm_products_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('description', 20);
+            $table->string('description', 50);
             $table->boolean('is_attraction')->default(false);
             $table->timestamps();
             $table->softDeletes();

@@ -78,6 +78,12 @@ class ProductResource extends Resource
                             ->required()
                             ->maxLength(10)
                             ->helperText('Utilize "." (ponto) para valores quebrados.'),
+                        Forms\Components\TextInput::make('cost')
+                            ->label('Custo')
+                            ->default('0')
+                            ->required()
+                            ->maxLength(10)
+                            ->helperText('Utilize "." (ponto) para valores quebrados.'),
                     ]),
                 Section::make('Visibilidade')
                     ->schema([
@@ -210,8 +216,14 @@ class ProductResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    \pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction::make()->exports([
+                        \pxlrbt\FilamentExcel\Exports\ExcelExport::make()
+                    ]),
                 ]),
-            ]);
+            ])
+            ->headerActions([
+                \pxlrbt\FilamentExcel\Actions\Tables\ExportAction::make()
+            ], \Filament\Tables\Actions\HeaderActionsPosition::Bottom);
     }
     
     public static function getRelations(): array

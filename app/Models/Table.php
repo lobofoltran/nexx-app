@@ -29,6 +29,7 @@ class Table extends Model
      */
     protected $fillable = [
         'identity',
+        'status',
     ];
 
     /**

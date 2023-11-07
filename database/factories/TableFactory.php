@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\TableStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class TableFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'identity' => null,
+            'status' => TableStatus::Available->value,
+            'owner_id' => '1',
         ];
     }
 }

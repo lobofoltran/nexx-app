@@ -30,6 +30,7 @@ class Card extends Model
     protected $fillable = [
         'atcm_table_id',
         'identity',
+        'status',
     ];
 
     /**
