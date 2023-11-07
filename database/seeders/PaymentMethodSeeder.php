@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PaymentMethod;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,5 +13,28 @@ class PaymentMethodSeeder extends Seeder
      */
     public function run(): void
     {
+        PaymentMethod::factory()->create([
+            'name' => 'Cartão Débito',
+        ]);
+
+        PaymentMethod::factory()->create([
+            'name' => 'Cartão Crédito',
+        ]);
+
+        PaymentMethod::factory()->create([
+            'name' => 'Dinheiro',
+        ]);
+
+        PaymentMethod::factory()->create([
+            'name' => 'Pix',
+        ]);
+
+        PaymentMethod::factory()->create([
+            'name' => 'Alimentação',
+        ]);
+
+        PaymentMethod::factory()->create([
+            'name' => 'Voucher',
+        ]);
     }
 }

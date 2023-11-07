@@ -21,7 +21,7 @@ class ProductEntityFactory extends Factory
     {
         return [
             'atcm_product_id' => Product::factory(),
-            'name' => $this->faker()->name(),
+            'name' => $this->faker->name(),
             'active' => true,
             'status' => ProductEntityStatus::Available->value,
             'owner_id' => '1',
