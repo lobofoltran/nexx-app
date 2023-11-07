@@ -96,7 +96,7 @@
                     <tbody>
                     @foreach ($card->groupments as $groupment)
                         <tr class="text-black">
-                            <td class="text-center">#{{ $groupment->card->id }} {{ $groupment->card->identity ? '('. $groupment->card->identity ')' : ''}}</td>
+                            <td class="text-center">#{{ $groupment->card->id }} {{ $groupment->card->identity ? '('. $groupment->card->identity . ')' : ''}}</td>
                             <td class="text-center"><x-button wire:click="viewCard({{ $groupment->card }})" class="text-center">Visualizar</x-button></td>
                             <td class="text-center"><x-button wire:click="removeGropment({{ $groupment }})" class="text-center"><i class="fas fa-trash"></i></x-button></td>
                         </tr>
