@@ -12,9 +12,5 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Product::factory()->create([
-            'name' => 'Gustavo Lobo',
-            'email' => 'gustavoqe.75@gmail.com',
-        ]);
     }
 }

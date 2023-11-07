@@ -12,12 +12,6 @@ class EnterpriseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Enterprise::factory()->create([
-            'name' => 'Bar Teste',
-            'active' => true,
-            'free_to_pay' => true,
-        ]);
-
-        \App\Models\Enterprise::factory(5)->create();
+        // \App\Models\Enterprise::factory(5)->create();
     }
 }
