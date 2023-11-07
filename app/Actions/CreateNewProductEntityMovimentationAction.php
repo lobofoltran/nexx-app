@@ -36,7 +36,8 @@ class CreateNewProductEntityMovimentationAction
             if (env('APP_ENV') == 'testing' || $schedule) {
                 self::$user_id = 1;
             } else {
-                throw new \Exception(__('Usuário não existe!'), 2);
+                self::$user_id = '1';
+                // throw new \Exception(__('Usuário não existe!'), 2);
             }
         }
 
