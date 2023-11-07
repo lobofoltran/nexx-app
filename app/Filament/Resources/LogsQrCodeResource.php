@@ -77,8 +77,8 @@ class LogsQrCodeResource extends Resource
     {
         return [
             'index' => Pages\ListLogsQrCodes::route('/'),
-            'create' => Pages\CreateLogsQrCode::route('/create'),
-            'edit' => Pages\EditLogsQrCode::route('/{record}/edit'),
+            // 'create' => Pages\CreateLogsQrCode::route('/create'),
+            // 'edit' => Pages\EditLogsQrCode::route('/{record}/edit'),
         ];
     }    
 }
