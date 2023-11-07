@@ -31,7 +31,6 @@
                 <div class="absolute right-0 bottom-0 p-2"><i class="{{ ProductEntityStatus::from($attraction->status)->icon() }}"></i></div>
                 <div class="text-center flex-none">#{{ $attraction->id }}</div>
                 <div class="text-center flex-none">{{ $attraction->name }}</div>
-                <div class="text-center flex-none">{{ $attraction->product->id }}</div>
                 <div class="text-center flex-none">{{ $attraction->product->name }}</div>
                 @if ($attraction->status === ProductEntityStatus::InUse->value)
                     <div class="mb-3 text-center flex-none"><i class="fas fa-clock text-xs"></i> Finaliza às: @hour($attraction->queuesEntities->last()->finish_at)</div>

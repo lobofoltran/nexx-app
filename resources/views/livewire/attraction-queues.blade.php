@@ -23,8 +23,7 @@
                 <div tabindex="0" wire:keydown.enter="modalQueue({{ $queue }})" wire:click="modalQueue({{ $queue }})" class="focus:ring-4 ring-offset-2 ring-offset-slate-50 flex flex-col relative focus-within:shadow-lg justify-between p-4 rounded-lg {{ OrderItemQueueStatus::from($queue->status)->color() }} shadow-lg w-full cursor-pointer">
                     <div class="absolute right-0 bottom-0 p-2"><i class="{{ OrderItemQueueStatus::from($queue->status)->icon() }}"></i></div>
                     <div class="text-center flex-none">#{{ $queue->id }}</div>
-                    <div class="text-center flex-none">{{ $queue->orderItem->order->card->id }} {{ $queue->orderItem->order->card->identity ?  '(' . $queue->orderItem->order->card->identity .')' : '' }}</div>
-                    <div class="text-center flex-none">{{ $queue->orderItem->product->id }}</div>
+                    <div class="text-center flex-none"><i class="fas fa-address-card"></i> {{ $queue->orderItem->order->card->id }} {{ $queue->orderItem->order->card->identity ?  '(' . $queue->orderItem->order->card->identity .')' : '' }}</div>
                     <div class="text-center flex-none">{{ $queue->orderItem->product->name }}</div>
                     <div class="text-center flex-none">@dateHour($queue->created_at)</div>
                     <div class="text-center flex-none"><i class="fas fa-clock text-sm"></i> {{ $queue->orderItem->product->time }}</div>
