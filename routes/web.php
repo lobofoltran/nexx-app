@@ -21,10 +21,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/storagelink', function () {
-    Artisan::call('storage:link', ['--force', true]);
+Route::get('artisan/migrate', function() {
+    Artisan::call('migrate:fresh', [
+        '--seed',
+        '--force' => true,
+    ]);
+});
 
-    return response('Storage linkado!');
+Route::get('artisan/storage', function() {
+    Artisan::call('storage:link');
 });
 
 Route::middleware([
