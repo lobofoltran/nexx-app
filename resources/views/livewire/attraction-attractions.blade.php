@@ -54,7 +54,7 @@
                     @if ($selectedAttraction)
                         @foreach ($queues as $queue)
                             @if ($queue->orderItem->product->name === $selectedAttraction->product->name)
-                                <option value="{{ $queue->id }}">{{ $queue->id }}</option>
+                                <option value="{{ $queue->id }}">{{ $queue->id }} {{ $queue->orderItem->order->card->id }} ({{ $queue->orderItem->order->card->identity }})</option>
                             @endif
                         @endforeach
                     @endif
