@@ -21,6 +21,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/storagelink', function () {
+    Artisan::call('storage:link', ['--force', true]);
+
+    return response('Storage linkado!');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
