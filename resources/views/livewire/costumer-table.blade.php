@@ -31,7 +31,7 @@
                 @foreach ($table->cards as $card)
                     @foreach ($card->orders as $order)
                         @foreach ($order->orderItems as $item)
-                            <div wire:click="addToCalculator({{ $item }})" class="flex justify-between align-self p-4 border-neutral-200 w-full cursor-pointer border-b text-black mt-2">
+                            <div class="flex justify-between align-self p-4 border-neutral-200 w-full border-b text-black mt-2">
                                 <div>#{{ $card->id }}</div>
                                 <div>{{ $item->product->name }}</div>
                                 <div class="{{ OrderItemsStatus::from($item->status)->color() }} p-1 rounded">{{ OrderItemsStatus::from($item->status)->label() }}</div>
@@ -42,7 +42,7 @@
                     @foreach ($card->groupments as $groupment)
                         @foreach ($groupment->card->orders as $order)
                             @foreach ($order->orderItems as $item)
-                                <div wire:click="addToCalculator({{ $item }})" class="flex justify-between p-4 border-neutral-200 w-full cursor-pointer border-b text-black mt-2">
+                                <div class="flex justify-between p-4 border-neutral-200 w-full border-b text-black mt-2">
                                     <div>#{{ $groupment->card->id }}</div>
                                     <div>{{ $item->product->name }}</div>
                                     <div class="{{ OrderItemsStatus::from($item->status)->color() }} p-1 rounded">{{ OrderItemsStatus::from($item->status)->label() }}</div>
