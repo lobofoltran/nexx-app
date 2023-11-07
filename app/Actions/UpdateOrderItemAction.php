@@ -20,7 +20,7 @@ class UpdateOrderItemAction
 
     private static function validate(OrderItem $orderItem): void
     {
-        if ($orderItem->order->card->status !== CardStatus::Active->value) {
+        if (!in_array($orderItem->order->card->status, [CardStatus::Active->value, CardStatus::Grouped->value])) {
             throw new \Exception(__('Comanda vinculada não ativa! Impossível alterar.'), 1);
         }
     }

@@ -29,7 +29,7 @@
         <div class="mt-3 bg-white dark:bg-gray-800 pt-4 px-4 border rounded">
             <div class="text-center text-lg">Comanda Virtual</div>
             <hr>
-            @foreach ($cardPhysical->cards->where('status', CardStatus::Active->value) as $card)
+            @foreach ($cardPhysical->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card)
                 <div class="my-4"><b>• Comanda:</b> {{ $card->id }}</div>
                 <div class="my-2 flex justify-between"><div><b>• Identificação:</b> {{ $card->identity }}</div></div>
                 <div class="my-2 flex justify-between"><div><b>• Mesa:</b> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity. ')' : '') : '' }} </div></div>

@@ -12,7 +12,7 @@ class PaymentService
     {
         $card = $payment->card;
 
-        if ($card->status !== CardStatus::Active->value) {
+        if (in_array($card->status, [CardStatus::Active->value, CardStatus::Grouped->value])) {
             throw new \Exception('Comanda já encerrada!', 1);
         }
 

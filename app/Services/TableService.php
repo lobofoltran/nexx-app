@@ -138,7 +138,7 @@ class TableService
     {
         $consummation = 0;
 
-        foreach ($table->cards->where('status', CardStatus::Active) as $card) {
+        foreach ($table->cards->whereIn('status', CardStatus::Active->value, CardStatus::Grouped->value) as $card) {
             $consummation += $card->getConsummation($groupment);
         }
 

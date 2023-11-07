@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($table->cards->where('status', CardStatus::Active->value) as $card)
+                    @foreach ($table->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card)
                         <tr class="text-black border-b">
                             <td class="text-center">#{{ $card->id }} {{ $card->identity ? '(' . $card->identity . ')' : '' }}</td>
                             <td class="text-center">@money($card->getConsummation())</td>
@@ -101,7 +101,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($table->cards->where('status', CardStatus::Active->value) as $card)
+                    @foreach ($table->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]) as $card)
                         @foreach ($card->orders as $order)
                             @foreach ($order->orderItems as $item)
                             <tr class="text-black border-b">

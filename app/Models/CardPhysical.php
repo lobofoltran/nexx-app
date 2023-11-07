@@ -49,7 +49,7 @@ class CardPhysical extends Model
 
     public function currentCard(): Collection
     {
-        return $this->cards->where('status', CardStatus::Active->value);
+        return $this->cards->whereIn('status', [CardStatus::Active->value, CardStatus::Grouped->value]);
     }
 
     public function routeCostumer(): string
