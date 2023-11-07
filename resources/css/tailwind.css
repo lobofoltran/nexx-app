@@ -2613,14 +2613,6 @@ body {
   .\32xl\:text-\[40px\] {
     font-size: 40px;
   }
-}        </style>
-        <link
-          rel="shortcut icon"
-          href="assets/images/favicon.png"
-          type="image/x-icon"
-        />
-        <style>
-        @charset "UTF-8";
 
 /*!
  * animate.css -https://daneden.github.io/animate.css/
@@ -2853,4 +2845,5 @@ body {
     -webkit-animation-iteration-count: 1 !important;
     animation-iteration-count: 1 !important;
   }
+}
 }
