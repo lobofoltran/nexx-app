@@ -72,15 +72,46 @@ class CardService
         return $card;
     }
 
+    public static function canSendPayment(Card $card, bool $group = true): bool
+    {
+        $statusItensCannotSendPayment = [
+            OrderItemsStatus::Assessing->value,
+            OrderItemsStatus::Preparing->value, 
+            OrderItemsStatus::Concluded->value,
+        ];
+    
+        $can = true;
+
+        foreach ($card->orders as $order) {
+            foreach ($order->orderItems as $orderItem) {
+                if (in_array($orderItem->status, $statusItensCannotSendPayment)) {
+                    $can = false;
+                }
+            }
+        }
+        
+        if ($can && $group) {
+            foreach ($card->groupments as $group) {
+                $can = self::getConsummation($group->card, false);
+
+                if (!$can) {
+                    break;
+                }
+            }
+        }
+
+        return $can;
+    }
+
     public static function getConsummation(Card $card, bool $group = false): string
     {
-        $arrayStatusOrderItemsToNotCashIn = [OrderItemsStatus::Rejected->value, OrderItemsStatus::Canceled->value];
+        $arrayStatusOrderItemsToCashIn = [OrderItemsStatus::Delivered->value];
 
         $value = 0;
 
         foreach ($card->orders as $order) {
             foreach ($order->orderItems as $orderItem) {
-                if (!in_array($orderItem->status, $arrayStatusOrderItemsToNotCashIn)) {
+                if (in_array($orderItem->status, $arrayStatusOrderItemsToCashIn)) {
                     $value += $orderItem->value;
                 }
             }
@@ -89,13 +120,6 @@ class CardService
         if ($group) {
             foreach ($card->groupments as $group) {
                 $value += self::getConsummation($group->card, false);
-                // foreach ($group->card->orders as $order) {
-                //     foreach ($order->orderItems as $orderItem) {
-                //         if (!in_array($orderItem->status, $arrayStatusOrderItemsToNotCashIn)) {
-                //             $value += $orderItem->value;
-                //         }
-                //     }
-                // }
             }
         }
 
@@ -115,9 +139,6 @@ class CardService
         if ($group) {
             foreach ($card->groupments as $group) {
                 $payments += self::getPaid($group->card, false);
-                // foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-                //     $payments += $payment->value;
-                // }
             }
         }
 
@@ -137,9 +158,6 @@ class CardService
         if ($group) {
             foreach ($card->groupments as $group) {
                 $transshipments += self::getTransshipment($group->card, false);
-                // foreach ($group->card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-                //     $transshipments += $payment->transshipment;
-                // }        
             }
         }
 

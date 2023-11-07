@@ -51,6 +51,7 @@ Route::middleware([
         Route::view('/waiter/tables', 'waiter.table')->name('waiter.table');
         Route::view('/waiter/table/{table}', 'waiter.table-view')->name('waiter.table-view');
         Route::view('/waiter/orders', 'waiter.order')->name('waiter.order');
+        Route::view('/waiter/calls', 'waiter.calls')->name('waiter.calls');
     });
 
     Route::group(['middleware' => ['role:' . RolesEnum::ATTRACTION->value]], function () {
@@ -80,7 +81,7 @@ Route::middleware([
         Route::view('/cashier/cards-physical/{cardPhysical}', 'cashier.cards-physical-view')->name('cashier.cards-physical-view');
         Route::view('/cashier/tables', 'cashier.table')->name('cashier.table');
         Route::view('/cashier/tables/{table}', 'cashier.table-view')->name('cashier.table-view');
-        Route::view('/cashier/orders', 'cashier.orders')->name('cashier.orders');
+        // Route::view('/cashier/orders', 'cashier.orders')->name('cashier.orders');
         Route::view('/cashier/calls', 'cashier.calls')->name('cashier.calls');
     });
 

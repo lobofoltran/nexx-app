@@ -108,6 +108,11 @@ class Card extends Model
         return CardService::getConsummation($this, true);
     }
 
+    public function canSendPayment(): bool
+    {
+        return CardService::canSendPayment($this);
+    }
+
     public function getPaidTotal(): string
     {
         return CardService::getPaid($this, true);

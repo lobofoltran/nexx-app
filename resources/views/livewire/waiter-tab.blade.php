@@ -10,6 +10,9 @@
             <x-nav-link href="{{ route('waiter.order') }}" class="py-2 px-4" :active="request()->routeIs('waiter.order')">
                 {{ __('Pedidos') }}
             </x-nav-link>
+            <x-nav-link href="{{ route('waiter.calls') }}" class="py-2 px-4" :active="request()->routeIs('waiter.calls')">
+                {{ __('Chamados') }}
+            </x-nav-link>
         </ul>
     </div>
 </div>

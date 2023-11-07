@@ -119,22 +119,22 @@ class ProductResource extends Resource
 
                                 return false;
                             }),
-                        Forms\Components\Toggle::make('show_to_cashier')
-                            ->label('Mostra para o Caixa')
-                            ->helperText('Assim que solicitado, irá mostrar para o caixa')
-                            ->hidden(function (Get $get): bool {
-                                $productCategory = ProductCategory::find($get('atcm_products_categories_id'));
+                        // Forms\Components\Toggle::make('show_to_cashier')
+                        //     ->label('Mostra para o Caixa')
+                        //     ->helperText('Assim que solicitado, irá mostrar para o caixa')
+                        //     ->hidden(function (Get $get): bool {
+                        //         $productCategory = ProductCategory::find($get('atcm_products_categories_id'));
 
-                                if (!$productCategory) {
-                                    return true;
-                                }
+                        //         if (!$productCategory) {
+                        //             return true;
+                        //         }
 
-                                if ($productCategory->is_attraction) {
-                                    return true;
-                                }
+                        //         if ($productCategory->is_attraction) {
+                        //             return true;
+                        //         }
 
-                                return false;
-                            }),
+                        //         return false;
+                        //     }),
                         Forms\Components\Toggle::make('active')
                             ->label('Ativo no Cardápio')
                             ->default(true),
@@ -181,11 +181,11 @@ class ProductResource extends Resource
                     ->boolean()
                     ->sortable()
                     ->alignCenter(),
-                Tables\Columns\IconColumn::make('show_to_cashier')
-                    ->label('Caixa')
-                    ->boolean()
-                    ->sortable()
-                    ->alignCenter(),
+                // Tables\Columns\IconColumn::make('show_to_cashier')
+                //     ->label('Caixa')
+                //     ->boolean()
+                //     ->sortable()
+                //     ->alignCenter(),
                 Tables\Columns\TextColumn::make('time')
                     ->label('Tempo')
                     ->searchable(),

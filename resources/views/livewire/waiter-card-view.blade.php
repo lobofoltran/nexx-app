@@ -8,7 +8,7 @@
     @if ($card)
     <hr>
     @if ($card->status !== CardStatus::Closed->value)
-        <div class="p-2 grid grid-cols-3 gap-1 my-2 text-white">
+        <div class="p-2 grid grid-cols-3 gap-1 mt-2 text-white">
             @if ($card->table)
                 <x-button class="text-green-600 bg-green-600" wire:click="confirmGroupTables" wire:loading.attr="disabled">
                     {{ __('Agrupar Mesas') }}
@@ -18,18 +18,20 @@
             <x-button class="text-green-600 bg-green-600" wire:click="confirmGroupCards" wire:loading.attr="disabled">
                 {{ __('Agrupar Comandas') }}
             </x-button>
-                
-            <x-button wire:click="redirectNewOrder" wire:loading.attr="disabled">
-                {{ __('Adicionar Pedido') }}
-            </x-button>
-
-            <x-button wire:click="redirectPayment" wire:loading.attr="disabled">
-                {{ __('Área de Pagamentos') }}
-            </x-button>
-
-            <x-button wire:click="printCard" wire:loading.attr="disabled">
-                {{ __('Imprimir') }}
-            </x-button>
+        </div>
+        <hr>
+        <div class="p-2 grid grid-cols-3 gap-1 mb-2 text-white">
+                @if ($card->canSendPayment())
+                <x-button wire:click="redirectPayment" wire:loading.attr="disabled">
+                    {{ __('Área de Pagamentos') }}
+                </x-button>
+                @endif
+                <x-button wire:click="redirectNewOrder" wire:loading.attr="disabled">
+                    {{ __('Novo Pedido') }}
+                </x-button>    
+                <x-button wire:click="printCard" wire:loading.attr="disabled">
+                    {{ __('Imprimir') }}
+                </x-button>
         </div>
     @else
         <div class="p-2 grid grid-cols-1 gap-1 my-2 text-white">

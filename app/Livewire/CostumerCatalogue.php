@@ -26,14 +26,9 @@ class CostumerCatalogue extends Component
 
     }
 
-    public function solicitarFechamento()
-    {
-        CreateNewCallAction::handle($this->card->table, 'Fechamento da Comanda');
-    }
-
     public function chamarGarcom()
     {
-        CreateNewCallAction::handle($this->card->table, 'Chamando Garçom');
+        CreateNewCallAction::handle($this->table, 'Chamando Garçom');
     }
 
     public function returnPage()
@@ -72,11 +67,11 @@ class CostumerCatalogue extends Component
         $this->selectedCategory = $this->productCategories->first();
 
         if ($this->type === 'card.virtual') {
-            $this->table = $this->card->table ??false;
+            $this->table = $this->card->table ?? false;
         } else if ($this->type === 'card.physical') {
-            $this->table = $this->card->currentCard()->first()->table ??false;
-        } else if ($this->type === 'card.table') {
-            $this->table = true;
+            $this->table = $this->card->currentCard()->first()->table ?? false;
+        } else if ($this->type === 'table') {
+            $this->table = $this->card;
         } else {
             $this->table = false;
         }
