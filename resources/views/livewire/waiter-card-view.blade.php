@@ -77,9 +77,9 @@
                 @endif
             </div>
             <div class="my-4"><b>• Tempo decorrido:</b> {{ $card->getTime() }}</div>
-            <div class="my-4"><b>• Subtotal: </b> @money($card->getConsummation())</div>
-            <div class="my-4"><b>• Pago: </b> @money($card->getPaid())</div>
-            <div class="my-4"><b>• Troco: </b> @money($card->getTransshipment())</div>
+            <div class="my-4"><b>• Subtotal: </b> @money($card->getConsummationTotal())</div>
+            <div class="my-4"><b>• Pago: </b> @money($card->getPaidTotal())</div>
+            <div class="my-4"><b>• Troco: </b> @money($card->getTransshipmentTotal())</div>
         </div>
         @if (sizeof($card->groupments) > 0)
             <div class="mt-2 bg-white dark:bg-gray-800 p-4 border rounded">
@@ -89,7 +89,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Comanda</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -97,8 +96,7 @@
                     <tbody>
                     @foreach ($card->groupments as $groupment)
                         <tr class="text-black">
-                            <td class="text-center">#{{ $groupment->card->id }}</td>
-                            <td class="text-center">{{ $groupment->card->identity }}</td>
+                            <td class="text-center">#{{ $groupment->card->id }} {{ $groupment->card->identity ? '('. $groupment->card->identity ')' : ''}}</td>
                             <td class="text-center"><x-button wire:click="viewCard({{ $groupment->card }})" class="text-center">Visualizar</x-button></td>
                             <td class="text-center"><x-button wire:click="removeGropment({{ $groupment }})" class="text-center"><i class="fas fa-trash"></i></x-button></td>
                         </tr>

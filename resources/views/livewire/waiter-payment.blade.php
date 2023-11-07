@@ -32,7 +32,7 @@
                         <div class="border p-2 px-4">{{ $this->quantityPerson }}</div>
                         <x-button wire:click="addPerson" wire:loading.attr="disabled">+</x-button>
                     </div>
-                    <div class="my-2 text-center text-lg"><span class="text-sm">Total p/ pessoa</span> @money($card->getConsummation() / $this->quantityPerson)</div>
+                    <div class="my-2 text-center text-lg"><span class="text-sm">Total p/ pessoa</span> @money($card->getConsummationTotal() / $this->quantityPerson)</div>
                 </div>
                 <hr class="my-4">
                 <div class="mb-4">

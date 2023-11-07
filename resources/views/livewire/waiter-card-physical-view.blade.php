@@ -34,9 +34,9 @@
                 <div class="my-2 flex justify-between"><div><b>• Identificação:</b> {{ $card->identity }}</div></div>
                 <div class="my-2 flex justify-between"><div><b>• Mesa:</b> {{ $card->table ? $card->table->id . ($card->table->identity ? ' (' . $card->table->identity. ')' : '') : '' }} </div></div>
                 <div class="my-4"><b>• Tempo decorrido:</b> {{ $card->getTime() }}</div>
-                <div class="my-4"><b>• Subtotal: </b> @money($card->getConsummation())</div>
-                <div class="my-4"><b>• Pago: </b> @money($card->getPaid())</div>
-                <div class="my-4"><b>• Troco: </b> @money($card->getTransshipment())</div>
+                <div class="my-4"><b>• Subtotal: </b> @money($card->getConsummationTotal())</div>
+                <div class="my-4"><b>• Pago: </b> @money($card->getPaidTotal())</div>
+                <div class="my-4"><b>• Troco: </b> @money($card->getTransshipmentTotal())</div>
                 <div class="my-4"><x-button class="w-full" wire:click="viewCard({{ $card }})">Visualizar Comanda</x-button></div>
             @endforeach
         </div>
