@@ -6,6 +6,16 @@
                 @if ($card->identity)
                     ({{$card->identity}})
                 @endif
+            @elseif ($type == 'card.physical')
+                Comanda #{{ $card->id }} 
+                @if ($card->code)
+                    ({{$card->code}})
+                @endif
+            @elseif ($type == 'table')
+                Mesa #{{ $card->id }} 
+                @if ($card->identity)
+                    ({{$card->identity}})
+                @endif
             @endif
         </div>
     </header>
@@ -59,11 +69,21 @@
                         Subtotal: @money($total)
                     </div>
                     <hr>
-                    <div class="my-2 flex justify-end">
-                        <x-button class="{{ $stylePage == 'invertido' ? '' : 'bg-green-500' }}" wire:click="sendOrder" wire:loading.attr="disabled">
-                            {{ __('Enviar Pedido') }}
-                        </x-button>
-                    </div>
+                    @if ($type == 'card.virtual')                        
+                        <div class="my-2 flex justify-end">
+                            <x-button class="{{ $stylePage == 'invertido' ? '' : 'bg-green-500' }}" wire:click="sendOrder" wire:loading.attr="disabled">
+                                {{ __('Enviar Pedido') }}
+                            </x-button>
+                        </div>
+                    @else
+                        @if ($table)
+                            <x-button class="my-2 text-2xl w-full" wire:click="chamarGarcom">CHAMAR O GARÇOM</x-button>
+                        @else
+                            <div class="my-2 text-center">
+                                Entre em contato com um garçom para realizar seu pedido!
+                            </div>
+                        @endif
+                    @endif
                 @endif
             </div>
             <hr class="my-2">
@@ -112,6 +132,6 @@
                 </ul>
             </div>
         </div>
-        <div class="{{ $stylePage == 'invertido' ? 'bg-white' : 'bg-gray-800' }}">.</div>
+        <div class="{{ $stylePage == 'invertido' ? '' : 'bg-gray-800' }}">.</div>
     </main>
 </div>

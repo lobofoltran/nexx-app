@@ -54,7 +54,7 @@
             <div class="text-center text-lg">Pedidos</div>
             <hr>
             @foreach ($card->orders as $order)
-                @foreach ($order->orderItems as $item)
+                @foreach ($order->orderItems->where('status', OrderItemsStatus::Delivered->value) as $item)
                     <div wire:click="addToCalculator({{ $item }})" class="flex justify-between p-4 border-neutral-200 w-full cursor-pointer border-b text-black mt-2">
                         <div>#{{ $card->id }}</div>
                         <div>{{ $item->product->name }}</div>

@@ -12,7 +12,9 @@ use App\Enums\TableStatus;
 use App\Models\Card;
 use App\Models\CardPhysical;
 use App\Models\GroupCard;
+use App\Models\OrderItem;
 use App\Models\Table;
+use App\Services\OrderItemService;
 use Livewire\Component;
 
 class WaiterCardView extends Component
@@ -26,6 +28,11 @@ class WaiterCardView extends Component
     public $confirmingEditTable = false;
     public $confirmingEditCardPhysical = false;
     public $newCardPhysical;
+
+    public function cancelOrderItem(OrderItem $item)
+    {
+        OrderItemService::setCanceled($item);
+    }
 
     public function confirmEditCardPhysical()
     {

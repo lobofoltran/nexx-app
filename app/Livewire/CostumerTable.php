@@ -6,33 +6,32 @@ use App\Actions\CreateNewCallAction;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 
-class CostumerCardVirtual extends Component
+class CostumerTable extends Component
 {
-    public $card;
+    public $table;
 
     public function solicitarFechamento()
     {
-        CreateNewCallAction::handle($this->card->table, 'Fechamento da Comanda');
+        CreateNewCallAction::handle($this->table, 'Fechamento da Comanda');
     }
 
     public function chamarGarcom()
     {
-        CreateNewCallAction::handle($this->card->table, 'Chamando Garçom');
+        CreateNewCallAction::handle($this->table, 'Chamando Garçom');
     }
 
     public function mount()
-    {        
-    }
-
-    public function render()
     {
-        $this->card = Session::get('costumer')['data'];
-
-        return view('livewire.costumer-card-virtual');
+        $this->table = Session::get('costumer')['data'];
     }
 
     public function redirectCatalogue()
     {
         return redirect()->route('costumer.new-order');
+    }
+
+    public function render()
+    {
+        return view('livewire.costumer-table');
     }
 }

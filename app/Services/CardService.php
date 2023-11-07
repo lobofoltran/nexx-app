@@ -109,7 +109,7 @@ class CardService
         $card->refresh();
 
         foreach ($card->payments->where('status', PaymentStatus::Concluded->value) as $payment) {
-            $payments += $payment->value;
+            $payments += (float) str_replace(',', '.', $payment->value);
         }
 
         if ($group) {

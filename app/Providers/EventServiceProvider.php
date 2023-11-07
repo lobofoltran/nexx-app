@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\AuditLog;
+use App\Models\Call;
 use App\Models\Card;
 use App\Models\CardMovimentation;
 use App\Models\CardPhysical;
@@ -76,6 +77,7 @@ class EventServiceProvider extends ServiceProvider
         CardMovimentation::class  => [OwnerObserver::class],
         OrderMovimentation::class => [OwnerObserver::class],
         TableMovimentation::class => [OwnerObserver::class],
+        Call::class               => [OwnerObserver::class],
     ];
 
     /**

@@ -14,6 +14,7 @@ class EntrancesExits extends Page
     protected static ?string $navigationLabel = 'Estatísticas de Entradas';
     protected static ?string $navigationGroup = 'Relatórios';
     protected static ?string $title = 'Estatísticas de Entradas';
+    protected static bool $shouldRegisterNavigation = false;
 
     protected function getHeaderWidgets(): array
     {

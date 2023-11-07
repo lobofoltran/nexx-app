@@ -21,39 +21,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('testprint', function () {
-    $printers = Printing::printers();
-
-    $printJob = Printing::newPrintTask()
-        ->content('okok')
-        ->printer($printers->first()->id())
-        ->send();
-
-    echo $printJob->id();
-
-
-    $receipt = (string) (new ReceiptPrinter)
-        ->centerAlign()
-        ->text('My heading')
-        ->leftAlign()
-        ->line()
-        ->twoColumnText('Item 1', '2.00')
-        ->twoColumnText('Item 2', '4.00')
-        ->feed(2)
-        ->centerAlign()
-        ->barcode('1234')
-        ->cut();
-
-        dd($receipt);
-    $printers = Printing::printers();
-
-    // Now send the string to your receipt printer
-    Printing::newPrintTask()
-        ->printer($printers->first()->id())
-        ->content('hello world')
-        ->send();
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -102,6 +69,8 @@ Route::middleware([
         Route::view('/cashier/cards-physical/{cardPhysical}', 'cashier.cards-physical-view')->name('cashier.cards-physical-view');
         Route::view('/cashier/tables', 'cashier.table')->name('cashier.table');
         Route::view('/cashier/tables/{table}', 'cashier.table-view')->name('cashier.table-view');
+        Route::view('/cashier/orders', 'cashier.orders')->name('cashier.orders');
+        Route::view('/cashier/calls', 'cashier.calls')->name('cashier.calls');
     });
 
 });

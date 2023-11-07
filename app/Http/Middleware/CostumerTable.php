@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\CardPhysicalStatus;
+use App\Actions\CreateNewLogsQrCodeAction;
 use App\Enums\TableStatus;
-use App\Models\CardPhysical;
 use App\Models\Table;
 use Closure;
 use Illuminate\Http\Request;
@@ -24,6 +23,7 @@ class CostumerTable
 
         if ($table) {
             Session::put('costumer', ['type' => 'table', 'data' => $table]);
+            CreateNewLogsQrCodeAction::handle($table::class, $table->id, $request->ip());
 
             return $next($request);
         } else {

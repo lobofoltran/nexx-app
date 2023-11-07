@@ -134,12 +134,12 @@ class TableService
         return $table;
     }
 
-    public static function getConsummation(Table $table): string
+    public static function getConsummation(Table $table, bool $groupment = false): string
     {
         $consummation = 0;
 
         foreach ($table->cards->where('status', CardStatus::Active) as $card) {
-            $consummation += $card->getConsummation();
+            $consummation += $card->getConsummation($groupment);
         }
 
         return $consummation;

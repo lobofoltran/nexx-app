@@ -10,6 +10,12 @@
             <x-nav-link href="{{ route('cashier.table') }}" class="py-2 px-4" :active="request()->routeIs('cashier.table')">
                 {{ __('Mesas') }}
             </x-nav-link>
+            <x-nav-link href="{{ route('cashier.orders') }}" class="py-2 px-4" :active="request()->routeIs('cashier.orders')">
+                {{ __('Pedidos') }}
+            </x-nav-link>
+            <x-nav-link href="{{ route('cashier.calls') }}" class="py-2 px-4" :active="request()->routeIs('cashier.calls')">
+                {{ __('Chamados') }}
+            </x-nav-link>
         </ul>
     </div>
 </div>

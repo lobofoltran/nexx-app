@@ -25,7 +25,7 @@ class CreateNewPaymentAction
         $payment->status = PaymentStatus::Concluded->value;
         $payment->atcm_card_id = self::$card_id;
         $payment->atcm_payment_method_id = self::$payment_method_id;
-        $payment->value = self::$value;
+        $payment->value = (float) str_replace(',', '.', $value);
         $payment->transshipment = self::$transshipment;
         $payment->save();
 
@@ -62,8 +62,8 @@ class CreateNewPaymentAction
         self::$payment_method_id = $paymentMethod->id;
         self::$value = $value;
 
-        self::$consummation = CardService::getConsummation($card);
-        $totalNew = $value + CardService::getPaid($card);
+        self::$consummation = CardService::getConsummation($card, true);
+        $totalNew = (float) str_replace(',', '.', $value) + CardService::getPaid($card, true);
 
         if ($totalNew > self::$consummation) {
             self::$transshipment = $totalNew - self::$consummation;

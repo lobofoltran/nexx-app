@@ -114,6 +114,7 @@
                         <th>Produto</th>
                         <th>Valor</th>
                         <th>Status</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,6 +124,11 @@
                             <td class="text-center">{{ $item->product->name }}</td>
                             <td class="text-center">@money($item->value)</td>
                             <td class="text-center"><div class="p-1 rounded-md text-sm border text-black {{ OrderItemsStatus::from($item->status)->color() }}">{{ OrderItemsStatus::from($item->status)->label() }}</div></td>
+                            <td class="text-center">
+                                @if (in_array($item->status, [OrderItemsStatus::Assessing->value, OrderItemsStatus::Preparing->value, OrderItemsStatus::Concluded->value]))
+                                <x-button wire:click="cancelOrderItem({{ $item }})">Cancelar Pedido</x-button>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     @endforeach

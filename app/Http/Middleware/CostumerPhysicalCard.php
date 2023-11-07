@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\CreateNewLogsQrCodeAction;
 use App\Enums\CardPhysicalStatus;
 use App\Models\CardPhysical;
 use Closure;
@@ -22,6 +23,7 @@ class CostumerPhysicalCard
 
         if ($cardPhysical) {
             Session::put('costumer', ['type' => 'card.physical', 'data' => $cardPhysical]);
+            CreateNewLogsQrCodeAction::handle($cardPhysical::class, $cardPhysical->id, $request->ip());
 
             return $next($request);
         } else {

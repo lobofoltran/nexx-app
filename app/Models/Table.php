@@ -67,6 +67,11 @@ class Table extends Model
         return TableService::getConsummation($this);
     }
 
+    public function getConsummationTotal(): string
+    {
+        return TableService::getConsummation($this, true);
+    }
+
     public function getTime(): string
     {
         return TableService::getTime($this);
