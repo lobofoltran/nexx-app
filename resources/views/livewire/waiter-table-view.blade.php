@@ -65,7 +65,7 @@
             <div class="mt-2 bg-white dark:bg-gray-800 p-4 border rounded">
                 <div class="text-center text-lg">Agrupamentos de Mesas</div>
                 <hr>
-                <table class="table-fixed w-full mt-3">
+                <table class="w-full mt-3">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -79,8 +79,8 @@
                             <tr class="text-black">
                                 <td class="text-center">#{{ $groupment->table->id }}</td>
                                 <td class="text-center">{{ $groupment->table->identity }}</td>
-                                <td><x-button wire:click="viewTable({{ $groupment->table }})" class="text-center">Visualizar</x-button></td>
-                                <td><x-button wire:click="removeGropment({{ $groupment }})" class="text-center"><i class="fas fa-trash"></i></x-button></td>
+                                <td class="text-center"><x-button wire:click="viewTable({{ $groupment->table }})" class="text-center">Visualizar</x-button></td>
+                                <td class="text-center"><x-button wire:click="removeGropment({{ $groupment }})" class="text-center"><i class="fas fa-trash"></i></x-button></td>
                             </tr>
                         @endforeach
                     </tbody>
