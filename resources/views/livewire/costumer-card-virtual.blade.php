@@ -20,7 +20,7 @@
             <div class="bg-white p-2 px-4 border rounded">
                 <div class="my-2"><b>• Comanda:</b> #{{ $card->id }}</div>
                 @if ($card->table)
-                <div class="my-2"><b>• Mesa:</b> #{{ $card->table->id }} @if ($table->identity)({{$table->identity}})@endif</div>
+                <div class="my-2"><b>• Mesa:</b> #{{ $card->table->id }} @if ($card->table->identity)({{$card->table->identity}})@endif</div>
                 @endif
                 <div class="my-2"><b>• Tempo decorrido:</b> {{ $card->getTime() }}</div>
                 <div class="my-2"><b>• Total Consumido: </b> @money($card->getConsummationTotal())</div>
