@@ -15,13 +15,10 @@ class CashierCalls extends Component
         CallService::setDone($call);
     }
 
-    public function mount()
-    {
-        $this->calls = Call::where('done', false)->get();
-    }
-
     public function render()
     {
+        $this->calls = Call::where('done', false)->get();
+
         return view('livewire.cashier-calls');
     }
 }
