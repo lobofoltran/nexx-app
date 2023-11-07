@@ -12,6 +12,5 @@ class PaymentMethodSeeder extends Seeder
      */
     public function run(): void
     {
-        //
     }
 }

@@ -25,8 +25,8 @@ class OrderItemFactory extends Factory
             'observations' => null,
             'value' => rand(0, 200),
             'cost' => rand(0, 150),
-            'owner_id' => '1',
             'created_at' => now(),
+            'owner_id' => '1',
         ];
     }
 }

@@ -19,7 +19,7 @@ class CardFactory extends Factory
     public function definition(): array
     {
         return [
-            'atcm_table_id' => Table::factory(),
+            'atcm_table_id' => null, //Table::factory(),
             'identity' => null,
             'status' => CardStatus::Active->value,
             'owner_id' => '1',
