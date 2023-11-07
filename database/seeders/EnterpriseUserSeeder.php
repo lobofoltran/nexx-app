@@ -14,7 +14,7 @@ class EnterpriseUserSeeder extends Seeder
      */
     public function run(): void
     {
-
+ 
         // \App\Models\EnterpriseUser::factory(5)->create();
     }
 }
